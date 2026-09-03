@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlay,
@@ -176,51 +177,54 @@ export default function Video() {
         </div>
       </section>
 
-      {selectedVideo && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="video-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/90 p-3 backdrop-blur-sm sm:p-6"
-          onClick={() => setSelectedVideo(null)}
-        >
+      {selectedVideo &&
+        typeof document !== "undefined" &&
+        createPortal(
           <div
-            className="flex max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl sm:max-h-[calc(100dvh-3rem)]"
-            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="video-modal-title"
+            className="fixed inset-0 z-[100] flex h-dvh w-screen items-center justify-center bg-neutral-950/90 p-3 backdrop-blur-sm sm:p-6"
+            onClick={() => setSelectedVideo(null)}
           >
-            <div className="flex items-center justify-between gap-4 border-b border-neutral-200 px-4 py-3 sm:px-5">
-              <div className="min-w-0">
-                <h2
-                  id="video-modal-title"
-                  className="truncate font-semibold text-neutral-900"
+            <div
+              className="flex max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl sm:max-h-[calc(100dvh-3rem)]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-4 border-b border-neutral-200 px-4 py-3 sm:px-5">
+                <div className="min-w-0">
+                  <h2
+                    id="video-modal-title"
+                    className="truncate font-semibold text-neutral-900"
+                  >
+                    {selectedVideo.title}
+                  </h2>
+                  <p className="mt-0.5 text-xs text-neutral-500">
+                    {selectedVideo.category} · {selectedVideo.duration}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedVideo(null)}
+                  aria-label="Tutup video"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-900"
                 >
-                  {selectedVideo.title}
-                </h2>
-                <p className="mt-0.5 text-xs text-neutral-500">
-                  {selectedVideo.category} · {selectedVideo.duration}
-                </p>
+                  <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setSelectedVideo(null)}
-                aria-label="Tutup video"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-900"
-              >
-                <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
-              </button>
+              <div className="aspect-video min-h-0 w-full bg-black">
+                <iframe
+                  className="h-full w-full"
+                  src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                  title={selectedVideo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
-            <div className="aspect-video min-h-0 w-full bg-black">
-              <iframe
-                className="h-full w-full"
-                src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
-                title={selectedVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
