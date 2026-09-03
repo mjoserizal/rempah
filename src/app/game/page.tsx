@@ -109,19 +109,26 @@ export default function Game() {
       </p>
       <div className="mt-6 grid max-w-4xl gap-3 sm:grid-cols-3">
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-          <div className="text-sm font-semibold text-neutral-900">1. Beli rempah</div>
+          <div className="text-sm font-semibold text-neutral-900">
+            1. Beli rempah
+          </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
             Gunakan emas untuk membeli stok dengan harga pasar.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-          <div className="text-sm font-semibold text-neutral-900">2. Berlayar</div>
+          <div className="text-sm font-semibold text-neutral-900">
+            2. Berlayar
+          </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Setiap pelayaran memicu kejadian acak yang bisa menambah atau mengurangi emas.
+            Setiap pelayaran memicu kejadian acak yang bisa menambah atau
+            mengurangi emas.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-          <div className="text-sm font-semibold text-neutral-900">3. Jual dan hitung</div>
+          <div className="text-sm font-semibold text-neutral-900">
+            3. Jual dan hitung
+          </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
             Jual stok, lalu capai skor akhir dari emas dan nilai barang tersisa.
           </p>
