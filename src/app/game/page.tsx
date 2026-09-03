@@ -138,10 +138,17 @@ export default function Game() {
 
   const buySpice = (spiceName: string) => {
     const price = market?.[spiceName];
-    const totalCargo = Object.values(cargo).reduce((sum, count) => sum + count, 0);
-    if (price === undefined || gold < price || totalCargo >= 8 || isOver) return;
+    const totalCargo = Object.values(cargo).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
+    if (price === undefined || gold < price || totalCargo >= 8 || isOver)
+      return;
     setGold((current) => current - price);
-    setCargo((current) => ({ ...current, [spiceName]: (current[spiceName] ?? 0) + 1 }));
+    setCargo((current) => ({
+      ...current,
+      [spiceName]: (current[spiceName] ?? 0) + 1,
+    }));
     addLog(`Membeli 1 kg ${spiceName} seharga ${price} emas.`);
   };
 
@@ -149,7 +156,10 @@ export default function Game() {
     const price = market?.[spiceName];
     if (price === undefined || !cargo[spiceName] || health <= 0) return;
     setGold((current) => current + price);
-    setCargo((current) => ({ ...current, [spiceName]: current[spiceName] - 1 }));
+    setCargo((current) => ({
+      ...current,
+      [spiceName]: current[spiceName] - 1,
+    }));
     addLog(`Menjual 1 kg ${spiceName} seharga ${price} emas.`);
   };
 
@@ -165,8 +175,12 @@ export default function Game() {
     setLogs(["Ekspedisi baru dimulai. Pilih rute pertamamu."]);
   };
 
-  const cargoCount = Object.values(cargo).reduce((sum, count) => sum + count, 0);
-  const isOver = turn >= MAX_TURNS || health <= 0 || (supplies <= 0 && cargoCount === 0);
+  const cargoCount = Object.values(cargo).reduce(
+    (sum, count) => sum + count,
+    0,
+  );
+  const isOver =
+    turn >= MAX_TURNS || health <= 0 || (supplies <= 0 && cargoCount === 0);
   const isSuccess = turn >= MAX_TURNS && health > 0;
 
   return (
@@ -254,7 +268,8 @@ export default function Game() {
             </div>
             <div className="mt-3 rounded-md bg-neutral-50 p-3 text-center">
               <div className="text-lg font-bold text-neutral-900">
-                {Object.values(cargo).reduce((sum, count) => sum + count, 0)}/8 kg
+                {Object.values(cargo).reduce((sum, count) => sum + count, 0)}/8
+                kg
               </div>
               <div className="text-xs text-neutral-500">muatan rempah</div>
             </div>
@@ -299,23 +314,36 @@ export default function Game() {
                       Harga hari ini
                     </h2>
                     <p className="mt-1 text-sm text-neutral-500">
-                      Beli rendah, simpan di muatan, lalu jual saat harganya naik.
+                      Beli rendah, simpan di muatan, lalu jual saat harganya
+                      naik.
                     </p>
                   </div>
-                  <FontAwesomeIcon icon={faCoins} className="h-6 w-6 text-neutral-400" />
+                  <FontAwesomeIcon
+                    icon={faCoins}
+                    className="h-6 w-6 text-neutral-400"
+                  />
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {spices.map((spice) => {
                     const owned = cargo[spice.name] ?? 0;
                     const price = market[spice.name];
                     return (
-                      <div key={spice.name} className="rounded-md border border-neutral-200 p-3">
+                      <div
+                        key={spice.name}
+                        className="rounded-md border border-neutral-200 p-3"
+                      >
                         <div className="flex items-center justify-between">
-                          <span className="font-semibold text-neutral-900">{spice.name}</span>
-                          <span className="text-sm font-bold text-rempah">{price} emas/kg</span>
+                          <span className="font-semibold text-neutral-900">
+                            {spice.name}
+                          </span>
+                          <span className="text-sm font-bold text-rempah">
+                            {price} emas/kg
+                          </span>
                         </div>
                         <div className="mt-3 flex items-center justify-between gap-3">
-                          <span className="text-xs text-neutral-500">Muatan: {owned} kg</span>
+                          <span className="text-xs text-neutral-500">
+                            Muatan: {owned} kg
+                          </span>
                           <div className="flex gap-2">
                             <button
                               onClick={() => sellSpice(spice.name)}
@@ -326,7 +354,14 @@ export default function Game() {
                             </button>
                             <button
                               onClick={() => buySpice(spice.name)}
-                              disabled={gold < price || isOver || Object.values(cargo).reduce((sum, count) => sum + count, 0) >= 8}
+                              disabled={
+                                gold < price ||
+                                isOver ||
+                                Object.values(cargo).reduce(
+                                  (sum, count) => sum + count,
+                                  0,
+                                ) >= 8
+                              }
                               className="rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               Beli
