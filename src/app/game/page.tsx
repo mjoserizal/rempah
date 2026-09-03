@@ -107,6 +107,26 @@ export default function Game() {
         memengaruhi perjalanan pedagang rempah Nusantara. Berlayar sebanyak{" "}
         {MAX_TURNS} kali untuk melihat dampaknya.
       </p>
+      <div className="mt-6 grid max-w-4xl gap-3 sm:grid-cols-3">
+        <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+          <div className="text-sm font-semibold text-neutral-900">1. Beli rempah</div>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+            Gunakan emas untuk membeli stok dengan harga pasar.
+          </p>
+        </div>
+        <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+          <div className="text-sm font-semibold text-neutral-900">2. Berlayar</div>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+            Setiap pelayaran memicu kejadian acak yang bisa menambah atau mengurangi emas.
+          </p>
+        </div>
+        <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+          <div className="text-sm font-semibold text-neutral-900">3. Jual dan hitung</div>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+            Jual stok, lalu capai skor akhir dari emas dan nilai barang tersisa.
+          </p>
+        </div>
+      </div>
       <div className="mt-6 max-w-2xl">
         <div className="flex items-center justify-between text-xs font-medium text-neutral-500">
           <span>Progres pelayaran</span>

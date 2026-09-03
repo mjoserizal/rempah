@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -27,6 +28,23 @@ type Product = {
   category: string;
   desc: string;
   icon: IconDefinition;
+  image: string;
+};
+
+const productImages = {
+  clothing:
+    "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",
+  bag: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",
+  mug: "https://images.unsplash.com/photo-1572119865084-43c285814d63?auto=format&fit=crop&w=700&q=80",
+  hat: "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=700&q=80",
+  poster:
+    "https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=700&q=80",
+  stickers:
+    "https://images.unsplash.com/photo-1587118269756-1b8c4a5e4b1d?auto=format&fit=crop&w=700&q=80",
+  bottle:
+    "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=700&q=80",
+  book: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80",
+  key: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=700&q=80",
 };
 
 const products: Product[] = [
@@ -37,6 +55,7 @@ const products: Product[] = [
     category: "Pakaian",
     desc: "Kaos katun dengan garis besar peta jalur rempah Nusantara.",
     icon: faShirt,
+    image: productImages.clothing,
   },
   {
     id: 2,
@@ -45,6 +64,7 @@ const products: Product[] = [
     category: "Aksesoris",
     desc: "Tas belanja kanvas dengan ilustrasi aneka rempah Indonesia.",
     icon: faBagShopping,
+    image: productImages.bag,
   },
   {
     id: 3,
@@ -53,6 +73,7 @@ const products: Product[] = [
     category: "Perlengkapan",
     desc: "Mug keramik bertema cengkeh, pala, dan lada.",
     icon: faMugHot,
+    image: productImages.mug,
   },
   {
     id: 4,
@@ -61,6 +82,7 @@ const products: Product[] = [
     category: "Aksesoris",
     desc: "Topi bergaya pelaut era jalur rempah.",
     icon: faHatCowboy,
+    image: productImages.hat,
   },
   {
     id: 5,
@@ -69,6 +91,7 @@ const products: Product[] = [
     category: "Dekorasi",
     desc: "Poster edukatif kronologi jalur rempah.",
     icon: faImage,
+    image: productImages.poster,
   },
   {
     id: 6,
@@ -77,6 +100,7 @@ const products: Product[] = [
     category: "Aksesoris",
     desc: "Paket stiker aneka rempah Nusantara.",
     icon: faStickyNote,
+    image: productImages.stickers,
   },
   {
     id: 7,
@@ -85,6 +109,7 @@ const products: Product[] = [
     category: "Perlengkapan",
     desc: "Tumbler dengan motif pelayaran rempah.",
     icon: faWineBottle,
+    image: productImages.bottle,
   },
   {
     id: 8,
@@ -93,6 +118,7 @@ const products: Product[] = [
     category: "Edukasi",
     desc: "Panduan singkat sejarah dan jenis rempah.",
     icon: faBook,
+    image: productImages.book,
   },
   {
     id: 9,
@@ -101,6 +127,7 @@ const products: Product[] = [
     category: "Aksesoris",
     desc: "Gantungan kunci bertema aneka rempah.",
     icon: faKey,
+    image: productImages.key,
   },
   {
     id: 10,
@@ -109,6 +136,7 @@ const products: Product[] = [
     category: "Pakaian",
     desc: "Syal bermotif rempah khas Nusantara.",
     icon: faShirt,
+    image: productImages.clothing,
   },
   {
     id: 11,
@@ -117,6 +145,7 @@ const products: Product[] = [
     category: "Aksesoris",
     desc: "Ransel kanvas untuk petualangan.",
     icon: faBagShopping,
+    image: productImages.bag,
   },
   {
     id: 12,
@@ -125,6 +154,7 @@ const products: Product[] = [
     category: "Kuliner",
     desc: "Kopi dan jahe instan bercita rasa rempah.",
     icon: faSackDollar,
+    image: productImages.bottle,
   },
 ];
 
@@ -190,12 +220,15 @@ export default function Merchandise() {
             return (
               <div
                 key={p.id}
-                className="flex flex-col rounded-lg border border-neutral-200 bg-white p-4 transition hover:border-neutral-300"
+                className="group flex flex-col rounded-lg border border-neutral-200 bg-white p-4 transition hover:border-neutral-300"
               >
-                <div className="flex h-32 items-center justify-center rounded-md bg-neutral-50">
-                  <FontAwesomeIcon
-                    icon={p.icon}
-                    className="h-10 w-10 text-neutral-300"
+                <div className="h-32 overflow-hidden rounded-md bg-neutral-50">
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    width={700}
+                    height={400}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="mt-3 flex-1">
