@@ -41,8 +41,8 @@ html {
   scroll-snap-stop: normal;
 }
 
-main {
-  animation: page-enter 500ms ease both;
+.page-transition {
+  animation: page-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .section-kicker {
@@ -171,7 +171,7 @@ main {
     scroll-snap-type: none;
   }
 
-  main {
+  .page-transition {
     animation: none;
   }
 

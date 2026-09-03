@@ -28,13 +28,13 @@ const spices: Spice[] = [
   {
     name: "Cengkeh",
     origin: "Maluku Utara: Ternate, Tidore, Makian, Bacan",
-    desc: "Bahan pangan, obat, dan parfum bernilai tinggi yang mendorong ekspedisi bangsa Eropa.",
+    desc: "Digunakan sebagai bumbu, pengawet makanan, obat, dan bahan parfum. Nilainya yang tinggi mendorong ekspedisi bangsa Eropa.",
     icon: faSeedling,
   },
   {
     name: "Pala",
     origin: "Kepulauan Banda, Maluku",
-    desc: "Komoditas Kepulauan Banda yang diperdagangkan bersama fuli dan menjadi sumber kekayaan sekaligus konflik.",
+    desc: "Biji pala dan selaput bijinya, fuli, menjadi komoditas mewah di Eropa. Keduanya membuat Banda kaya sekaligus menjadi sasaran perebutan kekuasaan.",
     icon: faSeedling,
   },
   {
@@ -61,7 +61,7 @@ const chronology = [
   {
     period: "Praaksara",
     title: "Pelayaran Austronesia",
-    desc: "Pelaut Austronesia mengembangkan perahu bercadik dan jaringan pelayaran luas yang menghubungkan kepulauan Asia Tenggara hingga Madagaskar.",
+    desc: "Pelaut Austronesia mengembangkan perahu bercadik dan jaringan pelayaran luas dari Asia Tenggara hingga Madagaskar dan Afrika Timur. Jejak perdagangan rempah dengan dunia kuno terus dikaji melalui bukti arkeologis dan sumber tertulis.",
   },
   {
     period: "Abad ke-4–15",
@@ -76,24 +76,24 @@ const chronology = [
   {
     period: "Abad ke-16–20",
     title: "Monopoli dan kolonialisme",
-    desc: "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512. VOC memaksakan monopoli melalui pelayaran hongi dan ekstirpasi, termasuk kekerasan di Banda pada 1621. Perjanjian Breda 1667 kemudian mengatur pertukaran Pulau Run dengan Manhattan.",
+    desc: "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512. Perjanjian Zaragoza 1521 membagi wilayah operasi Spanyol dan Portugis. VOC berdiri pada 1602 dan memaksakan monopoli melalui pelayaran hongi dengan kora-kora, ekstirpasi, serta kekerasan di Banda pada 1621 di bawah JP Coen. Perjanjian Breda 1667 mengatur pertukaran Pulau Run dengan Manhattan.",
   },
 ];
 
 const impacts = [
   {
     title: "Bahasa dan masyarakat pelabuhan",
-    desc: "Bahasa Melayu berkembang sebagai lingua franca, sementara pelabuhan menjadi ruang perjumpaan masyarakat Nusantara, Arab, Gujarat, Tiongkok, dan Eropa.",
+    desc: "Bahasa Melayu Pasar berkembang sebagai lingua franca. Pelabuhan menjadi masyarakat kosmopolitan dengan perjumpaan orang Nusantara, Arab, Gujarat, Tiongkok, dan Eropa, termasuk terbentuknya Kampung Arab, Pecinan, dan Koja.",
     icon: faPeopleGroup,
   },
   {
     title: "Akulturasi budaya",
-    desc: "Pertukaran perdagangan membentuk kuliner seperti gulai dan kari, tradisi jamu, arsitektur, serta kesenian seperti gambus.",
+    desc: "Pertukaran perdagangan membentuk kuliner seperti gulai dan kari, tradisi jamu, masjid beratap tumpang, serta kesenian seperti gambus.",
     icon: faBowlFood,
   },
   {
     title: "Perubahan dunia",
-    desc: "Persaingan menguasai rempah ikut mendorong penjelajahan samudra dan perubahan besar dalam ekonomi serta politik global.",
+    desc: "Perburuan rempah ikut mendorong Age of Discovery atau Era Penjelajahan Samudra, yang mengubah peta politik dan ekonomi dunia dari tatanan feodal menuju kapitalisme global.",
     icon: faGlobe,
   },
 ];
@@ -116,6 +116,39 @@ const routes = [
     path: "Maluku → Sulawesi → Jawa → Sumatera",
     desc: "Jaringan pelayaran antarpulau yang menjadi tulang punggung distribusi rempah.",
     icon: faArrowsLeftRight,
+  },
+];
+
+const ports = [
+  {
+    name: "Ternate dan Tidore",
+    region: "Maluku Utara",
+    desc: "Pusat produksi dan perdagangan cengkih. Kedua kesultanan ini terhubung dengan Sulawesi, Jawa, dan jaringan pedagang Asia melalui pelabuhan-pelabuhan di Maluku.",
+  },
+  {
+    name: "Kepulauan Banda",
+    region: "Maluku Tengah",
+    desc: "Wilayah utama penghasil pala dan fuli. Kapal dari berbagai wilayah datang untuk mengumpulkan komoditas yang kemudian dibawa ke pelabuhan perantara di Sulawesi dan Jawa.",
+  },
+  {
+    name: "Makassar",
+    region: "Sulawesi Selatan",
+    desc: "Simpul penting yang menghubungkan Maluku dengan Jawa, Nusa Tenggara, dan jalur menuju Asia. Pelabuhan ini menjadi ruang pertukaran rempah, beras, kain, dan hasil laut.",
+  },
+  {
+    name: "Banten",
+    region: "Jawa bagian barat",
+    desc: "Pelabuhan lada yang ramai dan pintu masuk menuju pasar Asia. Letaknya di dekat Selat Sunda membuat Banten strategis bagi kapal yang bergerak antara Samudra Hindia dan Nusantara.",
+  },
+  {
+    name: "Aceh dan Barus",
+    region: "Sumatera bagian utara",
+    desc: "Aceh berperan sebagai pusat perdagangan di ujung barat Nusantara, sedangkan Barus dikenal melalui kapur barus. Keduanya terhubung dengan India, Arab, dan pesisir Afrika Timur.",
+  },
+  {
+    name: "Malaka",
+    region: "Semenanjung Melayu",
+    desc: "Emporium besar tempat rempah dari Nusantara bertemu pedagang Gujarat, Arab, Persia, Tiongkok, dan Eropa sebelum diteruskan ke pasar yang lebih luas.",
   },
 ];
 
@@ -299,11 +332,46 @@ export default function Penjelasan() {
       <section id="rute" className="border-t border-neutral-200 bg-neutral-50">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <h2 className="text-2xl font-semibold text-neutral-900">
-            Rute perdagangan
+            Rute pelayaran rempah Nusantara
           </h2>
+          <p className="mt-3 max-w-3xl leading-relaxed text-neutral-600">
+            Dari Maluku sebagai pusat cengkih dan pala, rempah disebarkan
+            melalui jaringan pelayaran ke Sulawesi, Jawa, hingga Sumatera
+            sebelum diteruskan ke pasar dunia. Setiap pelabuhan memiliki peran
+            berbeda sebagai tempat produksi, pengumpulan, pertukaran, atau
+            pengiriman komoditas.
+          </p>
 
           <div className="mt-8">
             <LottieSpiceMap />
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-xl font-semibold text-neutral-900">
+              Pelabuhan utama
+            </h3>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-neutral-600">
+              Pelabuhan-pelabuhan berikut membentuk rangkaian distribusi dari
+              kebun rempah hingga pusat perdagangan internasional.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {ports.map((port) => (
+                <article
+                  key={port.name}
+                  className="border-l-2 border-rempah-light bg-white p-5"
+                >
+                  <p className="text-xs font-bold uppercase tracking-wider text-rempah-dark">
+                    {port.region}
+                  </p>
+                  <h4 className="mt-2 font-semibold text-neutral-900">
+                    {port.name}
+                  </h4>
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                    {port.desc}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
 
           <div className="mt-10 space-y-5">
