@@ -16,17 +16,24 @@ import {
 type Port = {
   name: string;
   region: string;
-  reward: number;
   supplies: number;
   danger: number;
   description: string;
 };
 
+type Market = Record<string, number>;
+
+const spices = [
+  { name: "Cengkeh", basePrice: 42 },
+  { name: "Pala", basePrice: 58 },
+  { name: "Lada", basePrice: 50 },
+  { name: "Kayu manis", basePrice: 34 },
+];
+
 const ports: Port[] = [
   {
     name: "Ternate",
     region: "Maluku Utara",
-    reward: 180,
     supplies: 1,
     danger: 20,
     description: "Pulau cengkeh dengan jalur pendek dan relatif aman.",
@@ -34,7 +41,6 @@ const ports: Port[] = [
   {
     name: "Banda",
     region: "Maluku",
-    reward: 280,
     supplies: 2,
     danger: 45,
     description: "Pusat pala. Hasil besar, tetapi lautnya sulit diprediksi.",
@@ -42,7 +48,6 @@ const ports: Port[] = [
   {
     name: "Banten",
     region: "Jawa Barat",
-    reward: 220,
     supplies: 1,
     danger: 35,
     description: "Pelabuhan ramai dengan banyak pedagang dan bajak laut.",
@@ -50,7 +55,6 @@ const ports: Port[] = [
   {
     name: "Aceh",
     region: "Sumatra",
-    reward: 320,
     supplies: 2,
     danger: 60,
     description: "Hadiah terbesar, tetapi rutenya panjang dan berbahaya.",
@@ -58,7 +62,6 @@ const ports: Port[] = [
   {
     name: "Makassar",
     region: "Sulawesi Selatan",
-    reward: 240,
     supplies: 1,
     danger: 40,
     description: "Persimpangan dagang penting untuk mengisi kembali bekal.",
@@ -66,7 +69,6 @@ const ports: Port[] = [
   {
     name: "Bali",
     region: "Bali",
-    reward: 160,
     supplies: 1,
     danger: 25,
     description: "Pelabuhan singgah yang aman, tetapi hadiahnya kecil.",
@@ -86,12 +88,24 @@ function getRouteRisk(port: Port, turn: number) {
   return (nameValue + turn * 17) % 100;
 }
 
+function generateMarket(): Market {
+  return Object.fromEntries(
+    spices.map((spice) => [
+      spice.name,
+      Math.floor(spice.basePrice * (0.65 + Math.random() * 0.9)),
+    ]),
+  );
+}
+
 export default function Game() {
   const [gold, setGold] = useState(STARTING_GOLD);
   const [supplies, setSupplies] = useState(STARTING_SUPPLIES);
   const [health, setHealth] = useState(STARTING_HEALTH);
   const [turn, setTurn] = useState(0);
   const [visited, setVisited] = useState<string[]>([]);
+  const [currentPort, setCurrentPort] = useState<string | null>(null);
+  const [market, setMarket] = useState<Market | null>(null);
+  const [cargo, setCargo] = useState<Record<string, number>>({});
   const [logs, setLogs] = useState([
     "Pilih rute pertamamu. Setiap pelabuhan hanya bisa dikunjungi sekali.",
   ]);
@@ -109,18 +123,34 @@ export default function Game() {
     const riskRoll = getRouteRisk(port, turn);
     const hit = riskRoll < port.danger;
     const damage = hit && (riskRoll + turn) % 10 < 3 ? 2 : hit ? 1 : 0;
-    const reward = hit ? Math.floor(port.reward * 0.35) : port.reward;
-
     setSupplies((current) => current - port.supplies);
-    setGold((current) => current + reward);
     setHealth((current) => Math.max(0, current - damage));
     setTurn((current) => current + 1);
     setVisited((current) => [...current, port.name]);
+    setCurrentPort(port.name);
+    setMarket(generateMarket());
     addLog(
       hit
-        ? `Bahaya di ${port.name}! Kapal rusak ${damage} tingkat, hadiah turun.`
-        : `Berhasil tiba di ${port.name}. Kamu mendapat ${port.reward} emas.`,
+        ? `Bahaya di ${port.name}! Kapal rusak ${damage} tingkat. Pasar tetap dibuka.`
+        : `Berhasil tiba di ${port.name}. Pasar baru saja dibuka.`,
     );
+  };
+
+  const buySpice = (spiceName: string) => {
+    const price = market?.[spiceName];
+    const totalCargo = Object.values(cargo).reduce((sum, count) => sum + count, 0);
+    if (price === undefined || gold < price || totalCargo >= 8 || isOver) return;
+    setGold((current) => current - price);
+    setCargo((current) => ({ ...current, [spiceName]: (current[spiceName] ?? 0) + 1 }));
+    addLog(`Membeli 1 kg ${spiceName} seharga ${price} emas.`);
+  };
+
+  const sellSpice = (spiceName: string) => {
+    const price = market?.[spiceName];
+    if (price === undefined || !cargo[spiceName] || health <= 0) return;
+    setGold((current) => current + price);
+    setCargo((current) => ({ ...current, [spiceName]: current[spiceName] - 1 }));
+    addLog(`Menjual 1 kg ${spiceName} seharga ${price} emas.`);
   };
 
   const restart = () => {
@@ -129,10 +159,14 @@ export default function Game() {
     setHealth(STARTING_HEALTH);
     setTurn(0);
     setVisited([]);
+    setCurrentPort(null);
+    setMarket(null);
+    setCargo({});
     setLogs(["Ekspedisi baru dimulai. Pilih rute pertamamu."]);
   };
 
-  const isOver = turn >= MAX_TURNS || health <= 0 || supplies <= 0;
+  const cargoCount = Object.values(cargo).reduce((sum, count) => sum + count, 0);
+  const isOver = turn >= MAX_TURNS || health <= 0 || (supplies <= 0 && cargoCount === 0);
   const isSuccess = turn >= MAX_TURNS && health > 0;
 
   return (
@@ -146,8 +180,8 @@ export default function Game() {
         Navigasi Jalur Rempah
       </h1>
       <p className="mt-2 max-w-2xl text-neutral-600">
-        Pilih lima pelabuhan dari enam pilihan. Kelola bekal dan kondisi kapalmu
-        untuk mengumpulkan emas sebanyak mungkin.
+        Berlayar untuk menemukan harga beli murah dan menjual rempah dengan
+        untung besar. Harga pasar berubah setiap kali kamu tiba di pulau baru.
       </p>
 
       <div className="mt-6 grid max-w-4xl gap-3 sm:grid-cols-3">
@@ -156,8 +190,8 @@ export default function Game() {
             Pilih rute
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Rute berbahaya memberi hadiah lebih besar, tetapi dapat merusak
-            kapal.
+            Setiap pulau menawarkan harga berbeda. Cari pasar murah sebelum
+            membawa rempah ke tujuan berikutnya.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
@@ -165,8 +199,8 @@ export default function Game() {
             Jaga bekal
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Setiap pelabuhan membutuhkan bekal. Kehabisan bekal mengakhiri
-            ekspedisi.
+            Setiap pelabuhan membutuhkan bekal. Sisakan ruang untuk membawa
+            kargo yang menguntungkan.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
@@ -174,7 +208,8 @@ export default function Game() {
             Capai tujuan
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Selesaikan lima pelayaran dengan kapal tetap mengapung.
+            Selesaikan lima pelayaran dengan kapal tetap mengapung dan emas
+            sebanyak mungkin.
           </p>
         </div>
       </div>
@@ -217,6 +252,12 @@ export default function Game() {
                 <div className="text-xs text-neutral-500">kapal</div>
               </div>
             </div>
+            <div className="mt-3 rounded-md bg-neutral-50 p-3 text-center">
+              <div className="text-lg font-bold text-neutral-900">
+                {Object.values(cargo).reduce((sum, count) => sum + count, 0)}/8 kg
+              </div>
+              <div className="text-xs text-neutral-500">muatan rempah</div>
+            </div>
             <div className="mt-5 flex items-center justify-between text-xs font-medium text-neutral-500">
               <span>Progres ekspedisi</span>
               <span>
@@ -249,6 +290,55 @@ export default function Game() {
 
         <div className="lg:col-span-2">
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            {market && currentPort ? (
+              <div className="mb-8 border-b border-neutral-200 pb-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="section-kicker">Pasar {currentPort}</p>
+                    <h2 className="mt-1 text-lg font-semibold text-neutral-900">
+                      Harga hari ini
+                    </h2>
+                    <p className="mt-1 text-sm text-neutral-500">
+                      Beli rendah, simpan di muatan, lalu jual saat harganya naik.
+                    </p>
+                  </div>
+                  <FontAwesomeIcon icon={faCoins} className="h-6 w-6 text-neutral-400" />
+                </div>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {spices.map((spice) => {
+                    const owned = cargo[spice.name] ?? 0;
+                    const price = market[spice.name];
+                    return (
+                      <div key={spice.name} className="rounded-md border border-neutral-200 p-3">
+                        <div className="flex items-center justify-between">
+                          <span className="font-semibold text-neutral-900">{spice.name}</span>
+                          <span className="text-sm font-bold text-rempah">{price} emas/kg</span>
+                        </div>
+                        <div className="mt-3 flex items-center justify-between gap-3">
+                          <span className="text-xs text-neutral-500">Muatan: {owned} kg</span>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => sellSpice(spice.name)}
+                              disabled={!owned || health <= 0}
+                              className="rounded-md border border-neutral-300 px-3 py-1.5 text-xs font-semibold text-neutral-700 transition hover:border-rempah disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              Jual
+                            </button>
+                            <button
+                              onClick={() => buySpice(spice.name)}
+                              disabled={gold < price || isOver || Object.values(cargo).reduce((sum, count) => sum + count, 0) >= 8}
+                              className="rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              Beli
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-neutral-900">
@@ -285,8 +375,8 @@ export default function Game() {
                           {port.region}
                         </div>
                       </div>
-                      <span className="text-xs font-semibold text-green-700">
-                        +{port.reward} emas
+                      <span className="text-xs font-semibold text-neutral-500">
+                        Pasar acak
                       </span>
                     </div>
                     <p className="mt-3 text-xs leading-relaxed text-neutral-600">
