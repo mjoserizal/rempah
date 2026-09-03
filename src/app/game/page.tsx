@@ -3,158 +3,187 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGamepad,
+  faAnchor,
+  faCompass,
   faCoins,
-  faBasketShopping,
-  faSailboat,
+  faGamepad,
+  faHeart,
   faRotateRight,
+  faSailboat,
   faTrophy,
-  faCartPlus,
-  faSackDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
-type Spice = { name: string; cost: number; sell: number };
+type Port = {
+  name: string;
+  region: string;
+  reward: number;
+  supplies: number;
+  danger: number;
+  description: string;
+};
 
-const spices: Spice[] = [
-  { name: "Cengkeh", cost: 100, sell: 160 },
-  { name: "Pala", cost: 90, sell: 150 },
-  { name: "Lada", cost: 60, sell: 100 },
-  { name: "Kayu Manis", cost: 70, sell: 120 },
-  { name: "Jahe", cost: 40, sell: 75 },
+const ports: Port[] = [
+  {
+    name: "Ternate",
+    region: "Maluku Utara",
+    reward: 180,
+    supplies: 1,
+    danger: 20,
+    description: "Pulau cengkeh dengan jalur pendek dan relatif aman.",
+  },
+  {
+    name: "Banda",
+    region: "Maluku",
+    reward: 280,
+    supplies: 2,
+    danger: 45,
+    description: "Pusat pala. Hasil besar, tetapi lautnya sulit diprediksi.",
+  },
+  {
+    name: "Banten",
+    region: "Jawa Barat",
+    reward: 220,
+    supplies: 1,
+    danger: 35,
+    description: "Pelabuhan ramai dengan banyak pedagang dan bajak laut.",
+  },
+  {
+    name: "Aceh",
+    region: "Sumatra",
+    reward: 320,
+    supplies: 2,
+    danger: 60,
+    description: "Hadiah terbesar, tetapi rutenya panjang dan berbahaya.",
+  },
+  {
+    name: "Makassar",
+    region: "Sulawesi Selatan",
+    reward: 240,
+    supplies: 1,
+    danger: 40,
+    description: "Persimpangan dagang penting untuk mengisi kembali bekal.",
+  },
+  {
+    name: "Bali",
+    region: "Bali",
+    reward: 160,
+    supplies: 1,
+    danger: 25,
+    description: "Pelabuhan singgah yang aman, tetapi hadiahnya kecil.",
+  },
 ];
 
-const events = [
-  { text: "Kapalmu selamat dari badai.", delta: 0 },
-  { text: "Badai menyerang, sebagian barang hilang.", delta: -50 },
-  { text: "Bajak laut menyerang, sebagian emas hilang.", delta: -80 },
-  { text: "Harga rempah melonjak di pelabuhan.", delta: 120 },
-  { text: "Kamu menemukan rempah langka di perjalanan.", delta: 100 },
-];
+const MAX_TURNS = 5;
+const STARTING_GOLD = 120;
+const STARTING_SUPPLIES = 7;
+const STARTING_HEALTH = 3;
+
+function getRouteRisk(port: Port, turn: number) {
+  const nameValue = [...port.name].reduce(
+    (total, character) => total + character.charCodeAt(0),
+    0,
+  );
+  return (nameValue + turn * 17) % 100;
+}
 
 export default function Game() {
-  const [gold, setGold] = useState(500);
-  const [inventory, setInventory] = useState<Record<string, number>>({});
-  const [logs, setLogs] = useState<string[]>([
-    "Selamat datang. Kamu adalah pedagang rempah Nusantara.",
-    "Kamu memulai dengan 500 emas. Berdaganglah untuk menjadi kaya.",
+  const [gold, setGold] = useState(STARTING_GOLD);
+  const [supplies, setSupplies] = useState(STARTING_SUPPLIES);
+  const [health, setHealth] = useState(STARTING_HEALTH);
+  const [turn, setTurn] = useState(0);
+  const [visited, setVisited] = useState<string[]>([]);
+  const [logs, setLogs] = useState([
+    "Pilih rute pertamamu. Setiap pelabuhan hanya bisa dikunjungi sekali.",
   ]);
-  const [turn, setTurn] = useState<number>(0);
-  const MAX_TURNS = 8;
 
-  const addLog = (msg: string) => {
-    setLogs((prev) => [msg, ...prev].slice(0, 6));
-  };
+  const addLog = (message: string) =>
+    setLogs((current) => [message, ...current].slice(0, 6));
 
-  const buy = (spice: Spice) => {
-    if (gold < spice.cost) {
-      addLog("Emas tidak cukup untuk membeli.");
+  const sailTo = (port: Port) => {
+    if (
+      turn >= MAX_TURNS ||
+      visited.includes(port.name) ||
+      supplies < port.supplies
+    )
       return;
-    }
-    setGold((g) => g - spice.cost);
-    setInventory((inv) => ({
-      ...inv,
-      [spice.name]: (inv[spice.name] || 0) + 1,
-    }));
-    addLog(`Membeli 1x ${spice.name}.`);
-  };
+    const riskRoll = getRouteRisk(port, turn);
+    const hit = riskRoll < port.danger;
+    const damage = hit && (riskRoll + turn) % 10 < 3 ? 2 : hit ? 1 : 0;
+    const reward = hit ? Math.floor(port.reward * 0.35) : port.reward;
 
-  const sell = (spice: Spice) => {
-    const owned = inventory[spice.name] || 0;
-    if (owned < 1) {
-      addLog("Stok tidak cukup untuk menjual.");
-      return;
-    }
-    setGold((g) => g + spice.sell);
-    setInventory((inv) => ({ ...inv, [spice.name]: owned - 1 }));
-    addLog(`Menjual 1x ${spice.name}.`);
-  };
-
-  const setSail = () => {
-    const event = events[Math.floor(Math.random() * events.length)];
-    setGold((g) => Math.max(0, g + event.delta));
-    addLog(event.text);
-    setTurn((t) => t + 1);
-    addLog(`Berlayar ke pulau berikutnya (giliran ${turn + 1}/${MAX_TURNS}).`);
+    setSupplies((current) => current - port.supplies);
+    setGold((current) => current + reward);
+    setHealth((current) => Math.max(0, current - damage));
+    setTurn((current) => current + 1);
+    setVisited((current) => [...current, port.name]);
+    addLog(
+      hit
+        ? `Bahaya di ${port.name}! Kapal rusak ${damage} tingkat, hadiah turun.`
+        : `Berhasil tiba di ${port.name}. Kamu mendapat ${port.reward} emas.`,
+    );
   };
 
   const restart = () => {
-    setGold(500);
-    setInventory({});
-    setLogs(["Petualangan baru dimulai."]);
+    setGold(STARTING_GOLD);
+    setSupplies(STARTING_SUPPLIES);
+    setHealth(STARTING_HEALTH);
     setTurn(0);
+    setVisited([]);
+    setLogs(["Ekspedisi baru dimulai. Pilih rute pertamamu."]);
   };
 
-  const isFinished = turn >= MAX_TURNS;
-  const totalGoods = Object.values(inventory).reduce((a, b) => a + b, 0);
-  const goodsValue = Object.entries(inventory).reduce((acc, [name, qty]) => {
-    const s = spices.find((x) => x.name === name)!;
-    return acc + s.sell * qty;
-  }, 0);
-  const finalScore = gold + goodsValue;
+  const isOver = turn >= MAX_TURNS || health <= 0 || supplies <= 0;
+  const isSuccess = turn >= MAX_TURNS && health > 0;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6">
       <p className="section-kicker">Laboratorium interaktif</p>
       <span className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500">
-        <FontAwesomeIcon icon={faGamepad} className="h-4 w-4" />
-        Simulasi sejarah
+        <FontAwesomeIcon icon={faCompass} className="h-4 w-4" />
+        Strategi pelayaran
       </span>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-        Pedagang Rempah Nusantara
+        Navigasi Jalur Rempah
       </h1>
       <p className="mt-2 max-w-2xl text-neutral-600">
-        Pelajari bagaimana harga, risiko pelayaran, dan jaringan perdagangan
-        memengaruhi perjalanan pedagang rempah Nusantara. Berlayar sebanyak{" "}
-        {MAX_TURNS} kali untuk melihat dampaknya.
+        Pilih lima pelabuhan dari enam pilihan. Kelola bekal dan kondisi kapalmu
+        untuk mengumpulkan emas sebanyak mungkin.
       </p>
+
       <div className="mt-6 grid max-w-4xl gap-3 sm:grid-cols-3">
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
           <div className="text-sm font-semibold text-neutral-900">
-            1. Beli rempah
+            Pilih rute
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Gunakan emas untuk membeli stok dengan harga pasar.
+            Rute berbahaya memberi hadiah lebih besar, tetapi dapat merusak
+            kapal.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
           <div className="text-sm font-semibold text-neutral-900">
-            2. Berlayar
+            Jaga bekal
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Setiap pelayaran memicu kejadian acak yang bisa menambah atau
-            mengurangi emas.
+            Setiap pelabuhan membutuhkan bekal. Kehabisan bekal mengakhiri
+            ekspedisi.
           </p>
         </div>
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
           <div className="text-sm font-semibold text-neutral-900">
-            3. Jual dan hitung
+            Capai tujuan
           </div>
           <p className="mt-1 text-xs leading-relaxed text-neutral-600">
-            Jual stok, lalu capai skor akhir dari emas dan nilai barang tersisa.
+            Selesaikan lima pelayaran dengan kapal tetap mengapung.
           </p>
-        </div>
-      </div>
-      <div className="mt-6 max-w-2xl">
-        <div className="flex items-center justify-between text-xs font-medium text-neutral-500">
-          <span>Progres pelayaran</span>
-          <span>
-            {turn} dari {MAX_TURNS} pelayaran
-          </span>
-        </div>
-        <div className="mt-2 h-2 overflow-hidden rounded-full bg-neutral-100">
-          <div
-            className="h-full rounded-full bg-rempah transition-all duration-500"
-            style={{ width: `${(turn / MAX_TURNS) * 100}%` }}
-          />
         </div>
       </div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-3">
-        {/* Dashboard */}
         <div className="space-y-6">
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
             <h2 className="text-lg font-semibold text-neutral-900">
-              Papan pedagang
+              Papan kapten
             </h2>
             <div className="mt-4 grid grid-cols-3 gap-3 text-center">
               <div className="rounded-md bg-neutral-50 p-3">
@@ -169,58 +198,48 @@ export default function Game() {
               </div>
               <div className="rounded-md bg-neutral-50 p-3">
                 <FontAwesomeIcon
-                  icon={faBasketShopping}
+                  icon={faAnchor}
                   className="mx-auto h-5 w-5 text-neutral-500"
                 />
                 <div className="mt-1 text-lg font-bold text-neutral-900">
-                  {totalGoods}
+                  {supplies}
                 </div>
-                <div className="text-xs text-neutral-500">barang</div>
+                <div className="text-xs text-neutral-500">bekal</div>
               </div>
               <div className="rounded-md bg-neutral-50 p-3">
                 <FontAwesomeIcon
-                  icon={faSailboat}
+                  icon={faHeart}
                   className="mx-auto h-5 w-5 text-neutral-500"
                 />
                 <div className="mt-1 text-lg font-bold text-neutral-900">
-                  {MAX_TURNS - turn}
+                  {health}/3
                 </div>
-                <div className="text-xs text-neutral-500">sisa</div>
+                <div className="text-xs text-neutral-500">kapal</div>
               </div>
             </div>
-
-            {isFinished ? (
-              <div className="mt-4 rounded-md bg-green-50 p-4 text-center">
-                <FontAwesomeIcon
-                  icon={faTrophy}
-                  className="mx-auto h-6 w-6 text-green-700"
-                />
-                <p className="mt-1 font-semibold text-green-800">
-                  Perjalanan selesai
-                </p>
-                <p className="mt-1 text-2xl font-bold text-green-700">
-                  {finalScore} emas
-                </p>
-                <p className="text-xs text-green-800/70">emas + nilai barang</p>
-              </div>
-            ) : (
-              <button
-                onClick={setSail}
-                className="sail-button mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-neutral-900 py-2.5 text-sm font-medium text-white transition hover:bg-rempah-dark"
-              >
-                <FontAwesomeIcon icon={faSailboat} className="h-4 w-4" />
-                Berlayar
-              </button>
-            )}
+            <div className="mt-5 flex items-center justify-between text-xs font-medium text-neutral-500">
+              <span>Progres ekspedisi</span>
+              <span>
+                {turn} dari {MAX_TURNS}
+              </span>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-neutral-100">
+              <div
+                className="h-full rounded-full bg-rempah transition-all duration-500"
+                style={{ width: `${(turn / MAX_TURNS) * 100}%` }}
+              />
+            </div>
           </div>
-
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
             <h2 className="text-lg font-semibold text-neutral-900">
-              Catatan perjalanan
+              Catatan pelayaran
             </h2>
             <ul className="mt-3 space-y-2 text-sm text-neutral-600">
-              {logs.map((log, i) => (
-                <li key={i} className="border-l-2 border-neutral-200 pl-3">
+              {logs.map((log, index) => (
+                <li
+                  key={`${log}-${index}`}
+                  className="border-l-2 border-neutral-200 pl-3"
+                >
                   {log}
                 </li>
               ))}
@@ -228,74 +247,73 @@ export default function Game() {
           </div>
         </div>
 
-        {/* Market */}
         <div className="lg:col-span-2">
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
-            <h2 className="text-lg font-semibold text-neutral-900">
-              Pasar rempah
-            </h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {spices.map((s) => {
-                const owned = inventory[s.name] || 0;
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  Pilih pelabuhan
+                </h2>
+                <p className="mt-1 text-sm text-neutral-500">
+                  Pelabuhan yang sudah dikunjungi tidak dapat dipilih lagi.
+                </p>
+              </div>
+              <FontAwesomeIcon
+                icon={faSailboat}
+                className="h-6 w-6 text-neutral-400"
+              />
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {ports.map((port) => {
+                const unavailable =
+                  isOver ||
+                  visited.includes(port.name) ||
+                  supplies < port.supplies;
                 return (
-                  <div
-                    key={s.name}
-                    className="group flex items-center justify-between rounded-md border border-neutral-200 p-4 transition hover:-translate-y-0.5 hover:border-rempah-light hover:shadow-sm"
+                  <button
+                    key={port.name}
+                    onClick={() => sailTo(port)}
+                    disabled={unavailable}
+                    className="text-left rounded-md border border-neutral-200 p-4 transition hover:-translate-y-0.5 hover:border-rempah-light hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-45"
                   >
-                    <div>
-                      <div className="font-semibold text-neutral-900">
-                        {s.name}
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="font-semibold text-neutral-900">
+                          {port.name}
+                        </div>
+                        <div className="text-xs text-neutral-500">
+                          {port.region}
+                        </div>
                       </div>
-                      <div className="mt-1 text-xs text-neutral-500">
-                        Punya: {owned}
-                      </div>
-                      <div className="mt-1 text-xs">
-                        <span className="text-red-600">Beli {s.cost}</span>
-                        <span className="mx-1 text-neutral-300">/</span>
-                        <span className="text-green-600">Jual {s.sell}</span>
-                      </div>
+                      <span className="text-xs font-semibold text-green-700">
+                        +{port.reward} emas
+                      </span>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => buy(s)}
-                        disabled={isFinished}
-                        className="inline-flex items-center gap-1 rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-40"
-                      >
-                        <FontAwesomeIcon
-                          icon={faCartPlus}
-                          className="h-3 w-3"
-                        />
-                        Beli
-                      </button>
-                      <button
-                        onClick={() => sell(s)}
-                        disabled={isFinished}
-                        className="inline-flex items-center gap-1 rounded-md border border-neutral-300 px-3 py-1.5 text-xs font-medium text-neutral-700 transition hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-40"
-                      >
-                        <FontAwesomeIcon
-                          icon={faSackDollar}
-                          className="h-3 w-3"
-                        />
-                        Jual
-                      </button>
+                    <p className="mt-3 text-xs leading-relaxed text-neutral-600">
+                      {port.description}
+                    </p>
+                    <div className="mt-3 flex justify-between text-xs text-neutral-500">
+                      <span>Bekal: {port.supplies}</span>
+                      <span>Risiko: {port.danger}%</span>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
           </div>
-
-          {isFinished && (
+          {isOver && (
             <div className="mt-6 rounded-lg border border-neutral-200 bg-neutral-50 p-8 text-center">
-              <h3 className="text-xl font-bold text-neutral-900">
-                Kekayaan akhir: {finalScore} emas
+              <FontAwesomeIcon
+                icon={isSuccess ? faTrophy : faGamepad}
+                className="mx-auto h-6 w-6 text-neutral-700"
+              />
+              <h3 className="mt-2 text-xl font-bold text-neutral-900">
+                {isSuccess ? "Ekspedisi berhasil" : "Ekspedisi berakhir"}
               </h3>
               <p className="mt-1 text-neutral-600">
-                {finalScore >= 1000
-                  ? "Kamu raja rempah sejati."
-                  : finalScore >= 700
-                    ? "Pedagang ulung yang tangguh."
-                    : "Ayo coba lagi untuk jadi lebih kaya."}
+                {isSuccess
+                  ? `Kamu mengumpulkan ${gold} emas dan tiba dengan selamat.`
+                  : "Sumber daya atau kondisi kapalmu tidak cukup untuk melanjutkan."}
               </p>
               <button
                 onClick={restart}
