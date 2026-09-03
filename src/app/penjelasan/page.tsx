@@ -6,6 +6,9 @@ import {
   faLandmark,
   faDrum,
   faBowlFood,
+  faWind,
+  faClockRotateLeft,
+  faPeopleGroup,
   faArrowRightLong,
   faArrowLeftLong,
   faArrowsLeftRight,
@@ -24,39 +27,74 @@ type Spice = {
 const spices: Spice[] = [
   {
     name: "Cengkeh",
-    origin: "Ternate & Tidore, Maluku",
-    desc: "Rempah berharga yang nilainya pernah setara emas dan menjadi pemicu ekspedisi bangsa Eropa.",
+    origin: "Maluku Utara: Ternate, Tidore, Makian, Bacan",
+    desc: "Bahan pangan, obat, dan parfum bernilai tinggi yang mendorong ekspedisi bangsa Eropa.",
     icon: faSeedling,
   },
   {
     name: "Pala",
     origin: "Kepulauan Banda, Maluku",
-    desc: "Selama berabad-abad hanya tumbuh di Banda, menjadi sumber kekayaan sekaligus konflik.",
+    desc: "Komoditas Kepulauan Banda yang diperdagangkan bersama fuli dan menjadi sumber kekayaan sekaligus konflik.",
     icon: faSeedling,
   },
   {
     name: "Lada",
-    origin: "Lampung & Sumatera",
-    desc: "Dijuluki raja rempah dan menjadi komoditas perdagangan terbesar, mendorong tumbuhnya pelabuhan seperti Banten.",
+    origin: "Banten, Lampung, Aceh, Sumatera Selatan",
+    desc: "Komoditas perdagangan utama untuk bumbu dan pengawet yang mendorong tumbuhnya pelabuhan seperti Banten.",
     icon: faSeedling,
   },
   {
     name: "Kayu Manis",
-    origin: "Sumatera Barat & Jawa",
-    desc: "Aromanya digemari seluruh dunia, dipakai untuk bumbu, obat, dan pengawet alami.",
+    origin: "Kerinci, Jambi, Sumatera Barat",
+    desc: "Dipakai sebagai bumbu, obat, dan pengawet alami serta diperdagangkan melalui pelabuhan Sumatra.",
     icon: faSeedling,
   },
   {
-    name: "Jahe",
-    origin: "Jawa & Indonesia Timur",
-    desc: "Lama dikenal sebagai tanaman obat dan rempah masak yang bergengsi di pasar dunia.",
+    name: "Kapur Barus",
+    origin: "Barus, Sumatera Utara",
+    desc: "Komoditas aromatik untuk pengobatan, ritual, dan pembalseman yang membuat Barus dikenal dalam jaringan niaga Asia.",
     icon: faSeedling,
   },
+];
+
+const chronology = [
   {
-    name: "Kunyit",
-    origin: "Jawa",
-    desc: "Rempah kuning yang dipakai dalam masakan, ritual, dan pengobatan tradisional (jamu).",
-    icon: faSeedling,
+    period: "Praaksara",
+    title: "Pelayaran Austronesia",
+    desc: "Pelaut Austronesia mengembangkan perahu bercadik dan jaringan pelayaran luas yang menghubungkan kepulauan Asia Tenggara hingga Madagaskar.",
+  },
+  {
+    period: "Abad ke-4–15",
+    title: "Kerajaan maritim",
+    desc: "Sriwijaya berkembang sebagai entrepôt di sekitar Selat Malaka dan Selat Sunda. Majapahit memperkuat hubungan antarpulau dalam jaringan perdagangan Nusantara.",
+  },
+  {
+    period: "Abad ke-15–16",
+    title: "Kesultanan dan emporium",
+    desc: "Malaka menjadi pusat pertemuan pedagang Asia dan Eropa. Ternate dan Tidore menjadi pusat politik serta perdagangan cengkih di Maluku.",
+  },
+  {
+    period: "Abad ke-16–20",
+    title: "Monopoli dan kolonialisme",
+    desc: "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512. VOC memaksakan monopoli melalui pelayaran hongi dan ekstirpasi, termasuk kekerasan di Banda pada 1621. Perjanjian Breda 1667 kemudian mengatur pertukaran Pulau Run dengan Manhattan.",
+  },
+];
+
+const impacts = [
+  {
+    title: "Bahasa dan masyarakat pelabuhan",
+    desc: "Bahasa Melayu berkembang sebagai lingua franca, sementara pelabuhan menjadi ruang perjumpaan masyarakat Nusantara, Arab, Gujarat, Tiongkok, dan Eropa.",
+    icon: faPeopleGroup,
+  },
+  {
+    title: "Akulturasi budaya",
+    desc: "Pertukaran perdagangan membentuk kuliner seperti gulai dan kari, tradisi jamu, arsitektur, serta kesenian seperti gambus.",
+    icon: faBowlFood,
+  },
+  {
+    title: "Perubahan dunia",
+    desc: "Persaingan menguasai rempah ikut mendorong penjelajahan samudra dan perubahan besar dalam ekonomi serta politik global.",
+    icon: faGlobe,
   },
 ];
 
@@ -137,21 +175,56 @@ export default function Penjelasan() {
           <div className="border-l-2 border-rempah-light pl-6 text-neutral-700 sm:pl-8">
             <div className="space-y-5 leading-relaxed">
               <p>
-                Sejak abad ke-7, pedagang dari Tiongkok, India, Arab, dan Eropa
-                datang ke Nusantara untuk membeli rempah langka seperti cengkeh,
-                pala, dan lada. Rempah ini digunakan untuk mengawetkan makanan,
-                obat-obatan, dan parfum.
+                Jalur Rempah adalah jaringan niaga bahari yang menghubungkan
+                kepulauan Nusantara dengan India, Timur Tengah, Tiongkok, dan
+                Eropa. Jaringan ini berpusat pada rute maritim, bukan satu jalan
+                tunggal.
               </p>
               <p>
-                Nilainya bisa melebihi emas. Karena itu Portugis dan kemudian
-                Belanda rela melayari samudra ribuan kilometer untuk menguasai
-                sumber rempah di Maluku. Persaingan ini melahirkan era
-                kolonialisme.
+                Pelayaran memanfaatkan angin muson. Muson Barat, sekitar
+                Oktober–Maret, membantu pelayaran menuju Nusantara; Muson Timur,
+                sekitar April–September, membantu pelayaran kembali menuju
+                Samudra Hindia atau Laut Tiongkok Selatan.
               </p>
               <p>
-                Pada 2022, UNESCO menetapkan Jalur Rempah sebagai bagian dari
-                memori kolektif dunia. Kini jalur rempah menjadi simbol
-                kebanggaan dan identitas budaya bangsa.
+                Kerajaan maritim seperti Sriwijaya dan Majapahit membangun
+                pengaruh dengan menguasai pelabuhan dan simpul laut strategis.
+                Pola ini disebut thalassocracy, yaitu kekuatan yang bertumpu
+                pada jaringan maritim.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-neutral-200">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-2">
+          <div>
+            <FontAwesomeIcon
+              icon={faWind}
+              className="h-6 w-6 text-rempah-dark"
+            />
+            <h2 className="mt-4 text-2xl font-semibold text-neutral-900">
+              Angin muson dan pelayaran
+            </h2>
+            <p className="mt-2 leading-relaxed text-neutral-600">
+              Pengetahuan membaca musim membuat pelabuhan Nusantara terhubung
+              secara berkala dengan pusat perdagangan dunia.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="border-l-2 border-rempah-light pl-4">
+              <h3 className="font-semibold text-neutral-900">Muson Barat</h3>
+              <p className="mt-1 text-sm leading-relaxed text-neutral-600">
+                Oktober–Maret, mendukung pelayaran dari India, Arab, dan
+                Tiongkok menuju Nusantara.
+              </p>
+            </div>
+            <div className="border-l-2 border-rempah-light pl-4">
+              <h3 className="font-semibold text-neutral-900">Muson Timur</h3>
+              <p className="mt-1 text-sm leading-relaxed text-neutral-600">
+                April–September, mendukung pelayaran keluar dari Nusantara
+                menuju barat dan timur.
               </p>
             </div>
           </div>
@@ -186,6 +259,38 @@ export default function Penjelasan() {
                   {s.desc}
                 </p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-neutral-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+          <div className="flex items-center gap-3">
+            <FontAwesomeIcon
+              icon={faClockRotateLeft}
+              className="h-5 w-5 text-rempah-dark"
+            />
+            <h2 className="text-2xl font-semibold text-neutral-900">
+              Kronologi singkat
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-4">
+            {chronology.map((item) => (
+              <article
+                key={item.period}
+                className="border-t-2 border-rempah-light pt-4"
+              >
+                <p className="text-sm font-bold text-rempah-dark">
+                  {item.period}
+                </p>
+                <h3 className="mt-2 font-semibold text-neutral-900">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                  {item.desc}
+                </p>
+              </article>
             ))}
           </div>
         </div>
@@ -261,6 +366,21 @@ export default function Penjelasan() {
         </div>
       </section>
 
+      <section className="border-t border-neutral-200 bg-neutral-50">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+          <p className="section-kicker">Relevansi hari ini</p>
+          <h2 className="mt-2 max-w-2xl text-2xl font-semibold text-neutral-900 sm:text-3xl">
+            Merawat ingatan, menghidupkan kembali jaringan
+          </h2>
+          <p className="mt-4 max-w-3xl leading-relaxed text-neutral-600">
+            Jalur Rempah menjadi bagian dari diplomasi budaya Indonesia dan
+            mendukung gagasan Poros Maritim Dunia. Pelestarian pelabuhan,
+            pengetahuan rempah, dan tradisi masyarakat membantu mengajukan
+            jaringan ini sebagai warisan budaya dunia kepada UNESCO.
+          </p>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <h2 className="text-2xl font-semibold text-neutral-900">
           Warisan yang tersisa
@@ -270,7 +390,7 @@ export default function Penjelasan() {
           Indonesia hingga kini.
         </p>
         <div className="mt-8 grid gap-8 md:grid-cols-3">
-          {heritage.map((h) => (
+          {[...heritage, ...impacts].map((h) => (
             <div key={h.title}>
               <FontAwesomeIcon
                 icon={h.icon}

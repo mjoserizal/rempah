@@ -59,12 +59,11 @@ const questions: Question[] = [
       "Pelabuhan Banten tumbuh menjadi pelabuhan internasional yang ramai karena perdagangan lada.",
   },
   {
-    question:
-      "Bangsa yang pertama kali berlayar ke Nusantara untuk menguasai jalur rempah?",
+    question: "Bangsa Eropa yang merebut Malaka pada 1511 adalah...",
     options: ["Inggris", "Belanda", "Portugis", "Spanyol"],
     answer: 2,
     explanation:
-      "Portugis pada 1511 menjadi bangsa Eropa pertama yang tiba mencari rempah.",
+      "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512 dalam upaya menguasai perdagangan rempah.",
   },
   {
     question: "Apa julukan lada dalam dunia perdagangan rempah?",
@@ -81,12 +80,16 @@ const questions: Question[] = [
       "Legu Gam adalah tradisi budaya Maluku yang merayakan hubungan masyarakat dengan rempah.",
   },
   {
-    question:
-      "Pada tahun berapa UNESCO menetapkan Jalur Rempah sebagai memori kolektif dunia?",
-    options: ["2015", "2018", "2020", "2022"],
-    answer: 3,
+    question: "Apa tujuan utama pengajuan Jalur Rempah ke UNESCO?",
+    options: [
+      "Menjadikannya mata uang dunia",
+      "Mengusulkannya sebagai warisan budaya dunia",
+      "Menghapus semua pelabuhan lama",
+      "Membatasi perdagangan rempah",
+    ],
+    answer: 1,
     explanation:
-      "Pada 2022, UNESCO mengakui Jalur Rempah sebagai bagian memori kolektif dunia.",
+      "Jalur Rempah diajukan sebagai warisan budaya dunia untuk mengakui nilai sejarah dan budaya jaringan perdagangan ini.",
   },
   {
     question:
