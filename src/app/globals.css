@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1f2937;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-rempah: #a158f5;
+  --color-rempah-dark: #7d33d6;
+  --color-rempah-light: #e7d7fb;
+  --color-neutral-900: #111111;
+  --color-neutral-800: #1f1f1f;
+  --color-neutral-700: #333333;
+  --color-neutral-600: #555555;
+  --color-neutral-500: #666666;
+  --color-neutral-400: #999999;
+  --color-neutral-300: #d1d1d1;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-100: #f3f3f3;
+  --color-neutral-50: #fafafa;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+.home-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+main {
+  animation: page-enter 500ms ease both;
+}
+
+.section-kicker {
+  color: #a158f5;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sail-button:hover svg {
+  animation: sail-nudge 700ms ease-in-out infinite alternate;
+}
+
+::selection {
+  background: #e7d7fb;
+  color: #111111;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 650ms ease,
+    transform 650ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.route-stop {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+}
+
+.scroll-reveal.is-visible .route-stop {
+  animation: route-step-in 500ms ease forwards;
+}
+
+.route-stop:nth-child(1) {
+  animation-delay: 120ms;
+}
+
+.route-stop:nth-child(2) {
+  animation-delay: 360ms;
+}
+
+.route-stop:nth-child(3) {
+  animation-delay: 600ms;
+}
+
+.route-stop:nth-child(4) {
+  animation-delay: 840ms;
+}
+
+.route-connector {
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.scroll-reveal.is-visible .route-connector {
+  animation: route-connector-in 350ms ease forwards;
+}
+
+.route-stop:nth-child(1) .route-connector {
+  animation-delay: 280ms;
+}
+
+.route-stop:nth-child(2) .route-connector {
+  animation-delay: 520ms;
+}
+
+.route-stop:nth-child(3) .route-connector {
+  animation-delay: 760ms;
+}
+
+.paper-grid {
+  background-color: #fafafa;
+  background-image:
+    linear-gradient(#e5e5e5 1px, transparent 1px),
+    linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes route-step-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes route-connector-in {
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sail-nudge {
+  from {
+    transform: translateX(-2px) rotate(-2deg);
+  }
+  to {
+    transform: translateX(2px) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  main {
+    animation: none;
+  }
+
+  .sail-button:hover svg {
+    animation: none;
+  }
+
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .route-stop,
+  .route-connector {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
