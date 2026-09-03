@@ -30,8 +30,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-3 z-50 mx-auto w-[calc(100%-1.5rem)] max-w-6xl rounded-full border border-neutral-200 bg-white/75 shadow-sm backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+    <header
+      className={`sticky top-3 z-50 mx-auto w-[calc(100%-1.5rem)] max-w-6xl overflow-hidden border border-neutral-200 bg-white/75 shadow-sm backdrop-blur md:rounded-full ${
+        open ? "rounded-3xl" : "rounded-full"
+      }`}
+    >
+      <div className="mx-auto flex min-h-14 max-w-6xl items-center justify-between px-3 py-2 sm:px-6 sm:py-3">
         <Link href="/" className="flex items-center gap-2 text-neutral-900">
           <FontAwesomeIcon
             icon={faMapLocationDot}
@@ -63,15 +67,20 @@ export default function Navbar() {
 
         <button
           onClick={() => setOpen(!open)}
-          className="flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 md:hidden"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 md:hidden"
           aria-label="Toggle menu"
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
         >
           <FontAwesomeIcon icon={open ? faXmark : faBars} className="h-5 w-5" />
         </button>
       </div>
 
       {open && (
-        <nav className="flex flex-col border-t border-neutral-200 bg-white px-4 py-2 md:hidden">
+        <nav
+          id="mobile-navigation"
+          className="flex w-full flex-col border-t border-neutral-200 bg-white/80 px-3 py-2 sm:px-4 md:hidden"
+        >
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -79,7 +88,7 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium ${
+                className={`flex min-h-11 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium ${
                   active
                     ? "text-rempah-dark"
                     : "text-neutral-700 hover:text-rempah-dark"
