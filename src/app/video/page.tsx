@@ -100,16 +100,15 @@ export default function Video() {
   }, [selectedVideo]);
 
   return (
-    <div className="flex flex-col">
+    <div className="-mt-14 flex w-full flex-col">
       <section className="gradient-hero border-b border-spice-amber/20">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 pb-16 pt-30 sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full bg-spice-coral-light px-4 py-1.5 text-sm font-semibold text-spice-coral">
             <FontAwesomeIcon icon={faCirclePlay} className="h-4 w-4" />
             Materi audiovisual
           </span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-            Simak dan{" "}
-            <span className="gradient-text-amber">pahami</span>
+            Simak dan <span className="gradient-text-amber">pahami</span>
           </h1>
           <p className="mt-3 max-w-2xl text-neutral-600">
             Materi audiovisual untuk memahami sejarah, budaya, dan warisan jalur
@@ -144,7 +143,9 @@ export default function Video() {
               </button>
               <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className={`inline-flex items-center gap-1 rounded-full bg-gradient-to-r ${v.gradient} px-2.5 py-0.5 font-bold text-white`}>
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full bg-gradient-to-r ${v.gradient} px-2.5 py-0.5 font-bold text-white`}
+                  >
                     <FontAwesomeIcon icon={faTag} className="h-2.5 w-2.5" />
                     {v.category}
                   </span>
@@ -153,9 +154,7 @@ export default function Video() {
                     {v.duration}
                   </span>
                 </div>
-                <h2 className="mt-3 font-bold text-neutral-900">
-                  {v.title}
-                </h2>
+                <h2 className="mt-3 font-bold text-neutral-900">{v.title}</h2>
                 <p className="mt-1 flex-1 text-sm leading-relaxed text-neutral-600">
                   {v.desc}
                 </p>

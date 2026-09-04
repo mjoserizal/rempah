@@ -197,7 +197,7 @@ export default function Game() {
   const isSuccess = turn >= MAX_TURNS && health > 0;
 
   return (
-    <div className="gradient-ocean min-h-screen w-full py-14">
+    <div className="gradient-ocean -mt-14 min-h-screen w-full pb-14 pt-28">
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
         <p className="section-kicker">Laboratorium interaktif</p>
         <span className="inline-flex items-center gap-2 rounded-full bg-spice-teal-light px-4 py-1.5 text-sm font-semibold text-spice-teal-dark">

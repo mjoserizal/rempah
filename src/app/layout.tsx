@@ -20,10 +20,17 @@ export const metadata: Metadata = {
     "Jelajahi sejarah, budaya, dan kekayaan Jalur Rempah Indonesia melalui quiz, game, dan video.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html
+      lang="id"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col text-foreground">
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />

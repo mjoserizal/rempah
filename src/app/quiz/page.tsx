@@ -145,168 +145,177 @@ export default function Quiz() {
           : "Ayo baca penjelasan dulu.";
 
   return (
-    <div className="gradient-warm min-h-screen py-14">
+    <div className="gradient-warm -mt-14 min-h-screen pb-14 pt-28">
       <div className="mx-auto w-full max-w-2xl px-4 sm:px-6">
-      <span className="inline-flex items-center gap-2 rounded-full bg-spice-purple-light px-4 py-1.5 text-sm font-semibold text-spice-purple">
-        <FontAwesomeIcon icon={faBrain} className="h-4 w-4" />
-        Kuis
-      </span>
-      <h1 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-        Ukur pemahamanmu
-      </h1>
-      <p className="mt-2 text-neutral-600">
-        Delapan pertanyaan untuk mengingat kembali materi jalur rempah
-        Indonesia. Setiap jawaban dilengkapi penjelasan singkat.
-      </p>
+        <span className="inline-flex items-center gap-2 rounded-full bg-spice-purple-light px-4 py-1.5 text-sm font-semibold text-spice-purple">
+          <FontAwesomeIcon icon={faBrain} className="h-4 w-4" />
+          Kuis
+        </span>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+          Ukur pemahamanmu
+        </h1>
+        <p className="mt-2 text-neutral-600">
+          Delapan pertanyaan untuk mengingat kembali materi jalur rempah
+          Indonesia. Setiap jawaban dilengkapi penjelasan singkat.
+        </p>
 
-      <div className="mt-10">
-        {!finished ? (
-          <div className="rounded-2xl border border-spice-purple/10 bg-white/80 p-6 shadow-lg shadow-spice-purple/5 backdrop-blur sm:p-8">
-            <div className="flex items-center justify-between text-sm text-neutral-600">
-              <span className="font-semibold">
-                Pertanyaan {current + 1} dari {questions.length}
-              </span>
-              <span className="rounded-full bg-spice-amber-light px-3 py-1 font-bold text-spice-amber-dark">
-                Skor: {score}
-              </span>
-            </div>
-            <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-100">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-spice-purple to-spice-indigo transition-all duration-500"
-                style={{
-                  width: `${((current + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
+        <div className="mt-10">
+          {!finished ? (
+            <div className="rounded-2xl border border-spice-purple/10 bg-white/80 p-6 shadow-lg shadow-spice-purple/5 backdrop-blur sm:p-8">
+              <div className="flex items-center justify-between text-sm text-neutral-600">
+                <span className="font-semibold">
+                  Pertanyaan {current + 1} dari {questions.length}
+                </span>
+                <span className="rounded-full bg-spice-amber-light px-3 py-1 font-bold text-spice-amber-dark">
+                  Skor: {score}
+                </span>
+              </div>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-100">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-spice-purple to-spice-indigo transition-all duration-500"
+                  style={{
+                    width: `${((current + 1) / questions.length) * 100}%`,
+                  }}
+                />
+              </div>
 
-            <h2 className="mt-6 text-lg font-bold text-neutral-900">
-              {question.question}
-            </h2>
+              <h2 className="mt-6 text-lg font-bold text-neutral-900">
+                {question.question}
+              </h2>
 
-            <div className="mt-5 space-y-2.5">
-              {question.options.map((opt, i) => {
-                let cls =
-                  "border-neutral-200 bg-white hover:bg-spice-amber-light/30 hover:border-spice-amber/30 text-neutral-800";
-                if (selected !== null) {
-                  if (i === question.answer) {
-                    cls = "border-spice-emerald bg-spice-emerald-light text-spice-emerald-dark ring-2 ring-spice-emerald/20";
-                  } else if (i === selected) {
-                    cls = "border-spice-rose bg-spice-rose-light text-spice-rose ring-2 ring-spice-rose/20";
-                  } else {
-                    cls = "border-neutral-200 bg-white text-neutral-500";
+              <div className="mt-5 space-y-2.5">
+                {question.options.map((opt, i) => {
+                  let cls =
+                    "border-neutral-200 bg-white hover:bg-spice-amber-light/30 hover:border-spice-amber/30 text-neutral-800";
+                  if (selected !== null) {
+                    if (i === question.answer) {
+                      cls =
+                        "border-spice-emerald bg-spice-emerald-light text-spice-emerald-dark ring-2 ring-spice-emerald/20";
+                    } else if (i === selected) {
+                      cls =
+                        "border-spice-rose bg-spice-rose-light text-spice-rose ring-2 ring-spice-rose/20";
+                    } else {
+                      cls = "border-neutral-200 bg-white text-neutral-500";
+                    }
                   }
-                }
-                return (
-                  <button
-                    key={i}
-                    onClick={() => handleSelect(i)}
-                    disabled={selected !== null}
-                    className={`flex w-full items-center justify-between rounded-xl border-2 p-4 text-left text-sm font-semibold transition ${cls}`}
-                  >
-                    <span>{opt}</span>
-                    {selected !== null && i === question.answer && (
-                      <FontAwesomeIcon
-                        icon={faCircleCheck}
-                        className="h-5 w-5 text-spice-emerald"
-                      />
-                    )}
-                    {selected !== null &&
-                      i === selected &&
-                      i !== question.answer && (
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => handleSelect(i)}
+                      disabled={selected !== null}
+                      className={`flex w-full items-center justify-between rounded-xl border-2 p-4 text-left text-sm font-semibold transition ${cls}`}
+                    >
+                      <span>{opt}</span>
+                      {selected !== null && i === question.answer && (
                         <FontAwesomeIcon
-                          icon={faCircleXmark}
-                          className="h-5 w-5 text-spice-rose"
+                          icon={faCircleCheck}
+                          className="h-5 w-5 text-spice-emerald"
                         />
                       )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {selected !== null && (
-              <div
-                className={`mt-5 rounded-xl p-4 text-sm leading-relaxed ${
-                  selected === question.answer
-                    ? "bg-gradient-to-r from-spice-emerald-light to-teal-50 text-spice-teal-dark border border-spice-emerald/20"
-                    : "bg-neutral-50 text-neutral-700 border border-neutral-200"
-                }`}
-              >
-                <p className="font-bold">
-                  {selected === question.answer
-                    ? "Benar!"
-                    : "Belum tepat."}
-                </p>
-                <p className="mt-1 text-neutral-600">{question.explanation}</p>
+                      {selected !== null &&
+                        i === selected &&
+                        i !== question.answer && (
+                          <FontAwesomeIcon
+                            icon={faCircleXmark}
+                            className="h-5 w-5 text-spice-rose"
+                          />
+                        )}
+                    </button>
+                  );
+                })}
               </div>
-            )}
 
-            {selected !== null && (
-              <button
-                onClick={handleNext}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-spice-purple to-spice-indigo px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-spice-purple/25 transition hover:shadow-xl hover:-translate-y-0.5"
-              >
-                {current + 1 < questions.length ? "Berikutnya" : "Lihat hasil"}
-                <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" />
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-spice-amber/10 bg-white/80 p-8 text-center shadow-lg shadow-spice-amber/5 backdrop-blur">
-            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-spice-amber to-spice-coral text-white shadow-lg shadow-spice-amber/25">
-              <FontAwesomeIcon icon={faTrophy} className="h-8 w-8" />
-            </span>
-            <h2 className="mt-4 text-3xl font-bold gradient-text-amber">
-              {score}/{questions.length}
-            </h2>
-            <p className="mt-1 font-semibold text-neutral-700">{grade}</p>
-            <div className="mx-auto mt-5 h-3 w-full max-w-xs overflow-hidden rounded-full bg-neutral-100">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-spice-amber to-spice-coral transition-all duration-500"
-                style={{ width: `${percentage}%` }}
-              />
-            </div>
-            <p className="mt-2 text-sm text-neutral-500">{percentage}% benar</p>
-
-            <div className="mt-8 space-y-4 text-left">
-              {questions.map((q, i) => (
+              {selected !== null && (
                 <div
-                  key={i}
-                  className={`rounded-xl border-2 p-4 text-sm ${
-                    answers[i] === q.answer
-                      ? "border-spice-emerald/20 bg-spice-emerald-light/30"
-                      : "border-spice-rose/20 bg-spice-rose-light/30"
+                  className={`mt-5 rounded-xl p-4 text-sm leading-relaxed ${
+                    selected === question.answer
+                      ? "bg-gradient-to-r from-spice-emerald-light to-teal-50 text-spice-teal-dark border border-spice-emerald/20"
+                      : "bg-neutral-50 text-neutral-700 border border-neutral-200"
                   }`}
                 >
-                  <p className="font-bold text-neutral-900">{q.question}</p>
-                  <p
-                    className={`mt-1 font-semibold ${
+                  <p className="font-bold">
+                    {selected === question.answer ? "Benar!" : "Belum tepat."}
+                  </p>
+                  <p className="mt-1 text-neutral-600">
+                    {question.explanation}
+                  </p>
+                </div>
+              )}
+
+              {selected !== null && (
+                <button
+                  onClick={handleNext}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-spice-purple to-spice-indigo px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-spice-purple/25 transition hover:shadow-xl hover:-translate-y-0.5"
+                >
+                  {current + 1 < questions.length
+                    ? "Berikutnya"
+                    : "Lihat hasil"}
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className="h-3.5 w-3.5"
+                  />
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-spice-amber/10 bg-white/80 p-8 text-center shadow-lg shadow-spice-amber/5 backdrop-blur">
+              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-spice-amber to-spice-coral text-white shadow-lg shadow-spice-amber/25">
+                <FontAwesomeIcon icon={faTrophy} className="h-8 w-8" />
+              </span>
+              <h2 className="mt-4 text-3xl font-bold gradient-text-amber">
+                {score}/{questions.length}
+              </h2>
+              <p className="mt-1 font-semibold text-neutral-700">{grade}</p>
+              <div className="mx-auto mt-5 h-3 w-full max-w-xs overflow-hidden rounded-full bg-neutral-100">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-spice-amber to-spice-coral transition-all duration-500"
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+              <p className="mt-2 text-sm text-neutral-500">
+                {percentage}% benar
+              </p>
+
+              <div className="mt-8 space-y-4 text-left">
+                {questions.map((q, i) => (
+                  <div
+                    key={i}
+                    className={`rounded-xl border-2 p-4 text-sm ${
                       answers[i] === q.answer
-                        ? "text-spice-emerald"
-                        : "text-spice-rose"
+                        ? "border-spice-emerald/20 bg-spice-emerald-light/30"
+                        : "border-spice-rose/20 bg-spice-rose-light/30"
                     }`}
                   >
-                    {answers[i] === q.answer ? "Benar" : "Kurang tepat"} —
-                    jawabanmu: {q.options[answers[i]]}
-                  </p>
-                  {answers[i] !== q.answer && (
-                    <p className="mt-1 text-neutral-600">
-                      Jawaban benar: {q.options[q.answer]}
+                    <p className="font-bold text-neutral-900">{q.question}</p>
+                    <p
+                      className={`mt-1 font-semibold ${
+                        answers[i] === q.answer
+                          ? "text-spice-emerald"
+                          : "text-spice-rose"
+                      }`}
+                    >
+                      {answers[i] === q.answer ? "Benar" : "Kurang tepat"} —
+                      jawabanmu: {q.options[answers[i]]}
                     </p>
-                  )}
-                </div>
-              ))}
-            </div>
+                    {answers[i] !== q.answer && (
+                      <p className="mt-1 text-neutral-600">
+                        Jawaban benar: {q.options[q.answer]}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
 
-            <button
-              onClick={restart}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-spice-amber to-spice-coral px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-spice-amber/25 transition hover:shadow-xl hover:-translate-y-0.5"
-            >
-              <FontAwesomeIcon icon={faRotateRight} className="h-4 w-4" />
-              Ulangi
-            </button>
-          </div>
-        )}
-      </div>
+              <button
+                onClick={restart}
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-spice-amber to-spice-coral px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-spice-amber/25 transition hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <FontAwesomeIcon icon={faRotateRight} className="h-4 w-4" />
+                Ulangi
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
