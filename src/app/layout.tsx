@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Jalur Rempah Indonesia",
   description:
-    "Jelajahi sejarah, budaya, dan kekayaan Jalur Rempah Indonesia melalui quiz, game, video, dan merchandise.",
+    "Jelajahi sejarah, budaya, dan kekayaan Jalur Rempah Indonesia melalui quiz, game, dan video.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

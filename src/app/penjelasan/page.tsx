@@ -21,7 +21,10 @@ type Spice = {
   name: string;
   origin: string;
   desc: string;
+  image: string;
   icon: IconDefinition;
+  color: string;
+  gradient: string;
 };
 
 const spices: Spice[] = [
@@ -29,31 +32,51 @@ const spices: Spice[] = [
     name: "Cengkeh",
     origin: "Maluku Utara: Ternate, Tidore, Makian, Bacan",
     desc: "Digunakan sebagai bumbu, pengawet makanan, obat, dan bahan parfum. Nilainya yang tinggi mendorong ekspedisi bangsa Eropa.",
+    image:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Bumbu_dan_Rempah_-_rempah.jpg/960px-Bumbu_dan_Rempah_-_rempah.jpg",
     icon: faSeedling,
+    color: "text-amber-600",
+    gradient: "from-amber-400 to-orange-500",
   },
   {
     name: "Pala",
     origin: "Kepulauan Banda, Maluku",
     desc: "Biji pala dan selaput bijinya, fuli, menjadi komoditas mewah di Eropa. Keduanya membuat Banda kaya sekaligus menjadi sasaran perebutan kekuasaan.",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Nutmeg%20fruit.jpg?width=900",
     icon: faSeedling,
+    color: "text-rose-600",
+    gradient: "from-rose-400 to-pink-500",
   },
   {
     name: "Lada",
     origin: "Banten, Lampung, Aceh, Sumatera Selatan",
     desc: "Komoditas perdagangan utama untuk bumbu dan pengawet yang mendorong tumbuhnya pelabuhan seperti Banten.",
+    image:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Black_peppercorns_gn.jpg/960px-Black_peppercorns_gn.jpg",
     icon: faSeedling,
+    color: "text-teal-600",
+    gradient: "from-teal-400 to-cyan-500",
   },
   {
     name: "Kayu Manis",
     origin: "Kerinci, Jambi, Sumatera Barat",
     desc: "Dipakai sebagai bumbu, obat, dan pengawet alami serta diperdagangkan melalui pelabuhan Sumatra.",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Cinnamon%20sticks.jpg?width=900",
     icon: faSeedling,
+    color: "text-purple-600",
+    gradient: "from-purple-400 to-indigo-500",
   },
   {
     name: "Kapur Barus",
     origin: "Barus, Sumatera Utara",
     desc: "Komoditas aromatik untuk pengobatan, ritual, dan pembalseman yang membuat Barus dikenal dalam jaringan niaga Asia.",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Camphor_Cubes.jpg?width=900",
     icon: faSeedling,
+    color: "text-emerald-600",
+    gradient: "from-emerald-400 to-teal-500",
   },
 ];
 
@@ -62,21 +85,25 @@ const chronology = [
     period: "Praaksara",
     title: "Pelayaran Austronesia",
     desc: "Pelaut Austronesia mengembangkan perahu bercadik dan jaringan pelayaran luas dari Asia Tenggara hingga Madagaskar dan Afrika Timur. Jejak perdagangan rempah dengan dunia kuno terus dikaji melalui bukti arkeologis dan sumber tertulis.",
+    gradient: "from-amber-400 to-orange-500",
   },
   {
     period: "Abad ke-4–15",
     title: "Kerajaan maritim",
     desc: "Sriwijaya berkembang sebagai entrepôt di sekitar Selat Malaka dan Selat Sunda. Majapahit memperkuat hubungan antarpulau dalam jaringan perdagangan Nusantara.",
+    gradient: "from-teal-400 to-cyan-500",
   },
   {
     period: "Abad ke-15–16",
     title: "Kesultanan dan emporium",
     desc: "Malaka menjadi pusat pertemuan pedagang Asia dan Eropa. Ternate dan Tidore menjadi pusat politik serta perdagangan cengkih di Maluku.",
+    gradient: "from-purple-400 to-indigo-500",
   },
   {
     period: "Abad ke-16–20",
     title: "Monopoli dan kolonialisme",
     desc: "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512. Perjanjian Zaragoza 1521 membagi wilayah operasi Spanyol dan Portugis. VOC berdiri pada 1602 dan memaksakan monopoli melalui pelayaran hongi dengan kora-kora, ekstirpasi, serta kekerasan di Banda pada 1621 di bawah JP Coen. Perjanjian Breda 1667 mengatur pertukaran Pulau Run dengan Manhattan.",
+    gradient: "from-rose-400 to-pink-500",
   },
 ];
 
@@ -85,16 +112,19 @@ const impacts = [
     title: "Bahasa dan masyarakat pelabuhan",
     desc: "Bahasa Melayu Pasar berkembang sebagai lingua franca. Pelabuhan menjadi masyarakat kosmopolitan dengan perjumpaan orang Nusantara, Arab, Gujarat, Tiongkok, dan Eropa, termasuk terbentuknya Kampung Arab, Pecinan, dan Koja.",
     icon: faPeopleGroup,
+    color: "from-amber-400 to-orange-500",
   },
   {
     title: "Akulturasi budaya",
     desc: "Pertukaran perdagangan membentuk kuliner seperti gulai dan kari, tradisi jamu, masjid beratap tumpang, serta kesenian seperti gambus.",
     icon: faBowlFood,
+    color: "from-rose-400 to-pink-500",
   },
   {
     title: "Perubahan dunia",
     desc: "Perburuan rempah ikut mendorong Age of Discovery atau Era Penjelajahan Samudra, yang mengubah peta politik dan ekonomi dunia dari tatanan feodal menuju kapitalisme global.",
     icon: faGlobe,
+    color: "from-teal-400 to-cyan-500",
   },
 ];
 
@@ -104,18 +134,21 @@ const routes = [
     path: "Eropa → Timur Tengah → India → Selat Malaka",
     desc: "Rute paling ramai yang mengalirkan cengkeh, pala, dan lada dari Maluku ke pasar dunia.",
     icon: faArrowRightLong,
+    gradient: "from-amber-400 to-orange-500",
   },
   {
     name: "Rute Timur",
     path: "Tiongkok & Jepang → Sulawesi → Maluku",
     desc: "Menghubungkan Maluku dengan pasar Asia Timur lewat pelabuhan di Nusantara timur.",
     icon: faArrowLeftLong,
+    gradient: "from-teal-400 to-cyan-500",
   },
   {
     name: "Rute Nusantara",
     path: "Maluku → Sulawesi → Jawa → Sumatera",
     desc: "Jaringan pelayaran antarpulau yang menjadi tulang punggung distribusi rempah.",
     icon: faArrowsLeftRight,
+    gradient: "from-purple-400 to-indigo-500",
   },
 ];
 
@@ -124,31 +157,43 @@ const ports = [
     name: "Ternate dan Tidore",
     region: "Maluku Utara",
     desc: "Pusat produksi dan perdagangan cengkih. Kedua kesultanan ini terhubung dengan Sulawesi, Jawa, dan jaringan pedagang Asia melalui pelabuhan-pelabuhan di Maluku.",
+    color: "border-l-amber-400",
+    bg: "bg-amber-50/50",
   },
   {
     name: "Kepulauan Banda",
     region: "Maluku Tengah",
     desc: "Wilayah utama penghasil pala dan fuli. Kapal dari berbagai wilayah datang untuk mengumpulkan komoditas yang kemudian dibawa ke pelabuhan perantara di Sulawesi dan Jawa.",
+    color: "border-l-rose-400",
+    bg: "bg-rose-50/50",
   },
   {
     name: "Makassar",
     region: "Sulawesi Selatan",
     desc: "Simpul penting yang menghubungkan Maluku dengan Jawa, Nusa Tenggara, dan jalur menuju Asia. Pelabuhan ini menjadi ruang pertukaran rempah, beras, kain, dan hasil laut.",
+    color: "border-l-teal-400",
+    bg: "bg-teal-50/50",
   },
   {
     name: "Banten",
     region: "Jawa bagian barat",
     desc: "Pelabuhan lada yang ramai dan pintu masuk menuju pasar Asia. Letaknya di dekat Selat Sunda membuat Banten strategis bagi kapal yang bergerak antara Samudra Hindia dan Nusantara.",
+    color: "border-l-purple-400",
+    bg: "bg-purple-50/50",
   },
   {
     name: "Aceh dan Barus",
     region: "Sumatera bagian utara",
     desc: "Aceh berperan sebagai pusat perdagangan di ujung barat Nusantara, sedangkan Barus dikenal melalui kapur barus. Keduanya terhubung dengan India, Arab, dan pesisir Afrika Timur.",
+    color: "border-l-emerald-400",
+    bg: "bg-emerald-50/50",
   },
   {
     name: "Malaka",
     region: "Semenanjung Melayu",
     desc: "Emporium besar tempat rempah dari Nusantara bertemu pedagang Gujarat, Arab, Persia, Tiongkok, dan Eropa sebelum diteruskan ke pasar yang lebih luas.",
+    color: "border-l-indigo-400",
+    bg: "bg-indigo-50/50",
   },
 ];
 
@@ -157,30 +202,34 @@ const heritage = [
     title: "Benteng & Pelabuhan",
     desc: "Benteng peninggalan Portugis dan Belanda di Ternate, Banda, dan Makassar jadi saksi kejayaan rempah.",
     icon: faLandmark,
+    color: "from-amber-400 to-orange-500",
   },
   {
     title: "Tradisi & Upacara",
     desc: "Festival seperti Legu Gam di Maluku merayakan hubungan budaya dengan rempah.",
     icon: faDrum,
+    color: "from-rose-400 to-pink-500",
   },
   {
     title: "Jamu & Kuliner",
     desc: "Kekayaan rempah melahirkan tradisi jamu dan kuliner khas yang kini dikenal dunia.",
     icon: faBowlFood,
+    color: "from-teal-400 to-emerald-500",
   },
 ];
 
 export default function Penjelasan() {
   return (
-    <div className="flex flex-col">
-      <section className="border-b border-neutral-200">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <span className="inline-block text-sm font-medium text-neutral-500">
-            <FontAwesomeIcon icon={faBookOpen} className="mr-1.5 h-4 w-4" />
+    <div className="-mt-20 flex w-full min-w-0 flex-col">
+      <section className="gradient-hero">
+        <div className="mx-auto max-w-6xl px-4 pb-16 pt-36 sm:px-6">
+          <span className="inline-flex items-center gap-2 rounded-full bg-spice-amber/10 px-4 py-1.5 text-sm font-semibold text-spice-amber-dark">
+            <FontAwesomeIcon icon={faBookOpen} className="h-4 w-4" />
             Penjelasan
           </span>
           <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-            Sejarah Jalur Rempah Indonesia
+            Sejarah Jalur Rempah{" "}
+            <span className="gradient-text-amber">Indonesia</span>
           </h1>
           <p className="mt-4 max-w-3xl text-lg leading-relaxed text-neutral-600">
             Jalur rempah adalah jaringan perdagangan yang menghubungkan
@@ -191,21 +240,18 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section className="border-y border-neutral-200 bg-neutral-50">
+      <section className="gradient-warm border-y border-spice-amber/20">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20 lg:py-20">
           <div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rempah-light">
-              <FontAwesomeIcon
-                icon={faGlobe}
-                className="h-4 w-4 text-rempah-dark"
-              />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-spice-amber to-spice-coral text-white shadow-lg shadow-spice-amber/20">
+              <FontAwesomeIcon icon={faGlobe} className="h-5 w-5" />
             </div>
             <p className="section-kicker mt-6">Konteks sejarah</p>
-            <h2 className="mt-2 text-2xl font-semibold leading-tight text-neutral-900 sm:text-3xl">
+            <h2 className="mt-2 text-2xl font-bold leading-tight text-neutral-900 sm:text-3xl">
               Mengapa disebut jalur rempah?
             </h2>
           </div>
-          <div className="border-l-2 border-rempah-light pl-6 text-neutral-700 sm:pl-8">
+          <div className="border-l-4 border-spice-amber/30 pl-6 text-neutral-700 sm:pl-8">
             <div className="space-y-5 leading-relaxed">
               <p>
                 Jalur Rempah adalah jaringan niaga bahari yang menghubungkan
@@ -230,14 +276,13 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section className="border-b border-neutral-200">
+      <section className="gradient-ocean border-b border-spice-teal/20">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-2">
           <div>
-            <FontAwesomeIcon
-              icon={faWind}
-              className="h-6 w-6 text-rempah-dark"
-            />
-            <h2 className="mt-4 text-2xl font-semibold text-neutral-900">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-spice-teal to-spice-indigo text-white shadow-lg">
+              <FontAwesomeIcon icon={faWind} className="h-5 w-5" />
+            </span>
+            <h2 className="mt-4 text-2xl font-bold text-neutral-900">
               Angin muson dan pelayaran
             </h2>
             <p className="mt-2 leading-relaxed text-neutral-600">
@@ -246,15 +291,15 @@ export default function Penjelasan() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="border-l-2 border-rempah-light pl-4">
-              <h3 className="font-semibold text-neutral-900">Muson Barat</h3>
+            <div className="rounded-2xl border-l-4 border-spice-teal bg-white/80 p-5 shadow-sm">
+              <h3 className="font-bold text-spice-teal-dark">Muson Barat</h3>
               <p className="mt-1 text-sm leading-relaxed text-neutral-600">
                 Oktober–Maret, mendukung pelayaran dari India, Arab, dan
                 Tiongkok menuju Nusantara.
               </p>
             </div>
-            <div className="border-l-2 border-rempah-light pl-4">
-              <h3 className="font-semibold text-neutral-900">Muson Timur</h3>
+            <div className="rounded-2xl border-l-4 border-spice-indigo bg-white/80 p-5 shadow-sm">
+              <h3 className="font-bold text-spice-indigo">Muson Timur</h3>
               <p className="mt-1 text-sm leading-relaxed text-neutral-600">
                 April–September, mendukung pelayaran keluar dari Nusantara
                 menuju barat dan timur.
@@ -264,60 +309,71 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section className="border-t border-neutral-200">
+      <section className="gradient-spice border-t border-spice-amber/20">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-semibold text-neutral-900">
+          <h2 className="text-2xl font-bold text-neutral-900">
             Rempah-rempah legendaris
           </h2>
           <p className="mt-2 max-w-2xl text-neutral-600">
             Komoditas berharga yang menjadikan Nusantara pusat peradaban
             perdagangan dunia.
           </p>
-          <div className="mt-8 grid gap-px overflow-hidden rounded-lg border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {spices.map((s) => (
-              <div key={s.name} className="bg-white p-6">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-neutral-100">
-                    <FontAwesomeIcon
-                      icon={s.icon}
-                      className="h-4 w-4 text-neutral-600"
-                    />
+              <div
+                key={s.name}
+                className="overflow-hidden rounded-2xl border border-spice-amber/10 bg-white/80 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div
+                  className="h-36 bg-cover bg-center"
+                  role="img"
+                  aria-label={`Foto ${s.name}`}
+                  style={{ backgroundImage: `url(${s.image})` }}
+                />
+                <div className="p-6">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${s.gradient} text-white shadow-md`}
+                    >
+                      <FontAwesomeIcon icon={s.icon} className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <h3 className="font-bold text-neutral-900">{s.name}</h3>
+                      <p className="text-xs text-neutral-500">{s.origin}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-900">{s.name}</h3>
-                    <p className="text-xs text-neutral-500">{s.origin}</p>
-                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                    {s.desc}
+                  </p>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-600">
-                  {s.desc}
-                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-t border-neutral-200">
+      <section className="gradient-warm border-t border-spice-amber/20">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <div className="flex items-center gap-3">
-            <FontAwesomeIcon
-              icon={faClockRotateLeft}
-              className="h-5 w-5 text-rempah-dark"
-            />
-            <h2 className="text-2xl font-semibold text-neutral-900">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-spice-amber to-spice-coral text-white shadow-md">
+              <FontAwesomeIcon icon={faClockRotateLeft} className="h-4 w-4" />
+            </span>
+            <h2 className="text-2xl font-bold text-neutral-900">
               Kronologi singkat
             </h2>
           </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-4">
+          <div className="mt-8 grid gap-4 md:grid-cols-4">
             {chronology.map((item) => (
               <article
                 key={item.period}
-                className="border-t-2 border-rempah-light pt-4"
+                className="rounded-2xl border-t-4 border-t-spice-amber/30 bg-white/80 p-5 shadow-sm transition hover:shadow-md"
               >
-                <p className="text-sm font-bold text-rempah-dark">
+                <span
+                  className={`inline-flex rounded-full bg-gradient-to-r ${item.gradient} px-3 py-1 text-xs font-bold text-white`}
+                >
                   {item.period}
-                </p>
-                <h3 className="mt-2 font-semibold text-neutral-900">
+                </span>
+                <h3 className="mt-3 font-bold text-neutral-900">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-neutral-600">
@@ -329,9 +385,12 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section id="rute" className="border-t border-neutral-200 bg-neutral-50">
+      <section
+        id="rute"
+        className="gradient-ocean border-t border-spice-teal/20"
+      >
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-semibold text-neutral-900">
+          <h2 className="text-2xl font-bold text-neutral-900">
             Rute pelayaran rempah Nusantara
           </h2>
           <p className="mt-3 max-w-3xl leading-relaxed text-neutral-600">
@@ -347,7 +406,7 @@ export default function Penjelasan() {
           </div>
 
           <div className="mt-12">
-            <h3 className="text-xl font-semibold text-neutral-900">
+            <h3 className="text-xl font-bold text-neutral-900">
               Pelabuhan utama
             </h3>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-neutral-600">
@@ -358,12 +417,12 @@ export default function Penjelasan() {
               {ports.map((port) => (
                 <article
                   key={port.name}
-                  className="border-l-2 border-rempah-light bg-white p-5"
+                  className={`rounded-2xl border-l-4 ${port.color} ${port.bg} p-5 shadow-sm transition hover:shadow-md`}
                 >
-                  <p className="text-xs font-bold uppercase tracking-wider text-rempah-dark">
+                  <p className="text-xs font-bold uppercase tracking-wider text-spice-amber-dark">
                     {port.region}
                   </p>
-                  <h4 className="mt-2 font-semibold text-neutral-900">
+                  <h4 className="mt-2 font-bold text-neutral-900">
                     {port.name}
                   </h4>
                   <p className="mt-2 text-sm leading-relaxed text-neutral-600">
@@ -380,18 +439,15 @@ export default function Penjelasan() {
 
               return (
                 <ScrollReveal key={r.name} delay={routeIndex * 100}>
-                  <article className="rounded-lg border border-neutral-200 bg-white p-5 sm:p-6">
+                  <article className="rounded-2xl border border-spice-teal/10 bg-white/80 p-5 shadow-sm sm:p-6 transition hover:shadow-md">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rempah-light">
-                        <FontAwesomeIcon
-                          icon={r.icon}
-                          className="h-4 w-4 text-rempah-dark"
-                        />
+                      <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${r.gradient} text-white shadow-md`}
+                      >
+                        <FontAwesomeIcon icon={r.icon} className="h-4 w-4" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-neutral-900">
-                          {r.name}
-                        </h3>
+                        <h3 className="font-bold text-neutral-900">{r.name}</h3>
                         <p className="mt-1 text-sm leading-relaxed text-neutral-600">
                           {r.desc}
                         </p>
@@ -406,7 +462,9 @@ export default function Penjelasan() {
                             className="route-stop flex items-start"
                           >
                             <div className="flex w-32 flex-col items-center text-center sm:w-40">
-                              <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-rempah bg-white text-sm font-bold text-rempah-dark">
+                              <span
+                                className={`flex h-9 w-9 items-center justify-center rounded-full border-2 border-spice-teal bg-white text-sm font-bold text-spice-teal-dark shadow-sm`}
+                              >
                                 {stopIndex + 1}
                               </span>
                               <span className="mt-2 text-xs font-medium leading-tight text-neutral-700">
@@ -414,8 +472,8 @@ export default function Penjelasan() {
                               </span>
                             </div>
                             {stopIndex < stops.length - 1 && (
-                              <div className="route-connector mt-4 flex w-10 items-center text-rempah sm:w-16">
-                                <span className="h-px flex-1 bg-rempah-light" />
+                              <div className="route-connector mt-4 flex w-10 items-center text-spice-teal sm:w-16">
+                                <span className="h-px flex-1 bg-gradient-to-r from-spice-teal/40 to-spice-teal" />
                                 <FontAwesomeIcon
                                   icon={faArrowRightLong}
                                   className="h-3 w-3"
@@ -434,10 +492,10 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section className="border-t border-neutral-200 bg-neutral-50">
+      <section className="gradient-spice border-t border-spice-amber/20">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <p className="section-kicker">Relevansi hari ini</p>
-          <h2 className="mt-2 max-w-2xl text-2xl font-semibold text-neutral-900 sm:text-3xl">
+          <h2 className="mt-2 max-w-2xl text-2xl font-bold text-neutral-900 sm:text-3xl">
             Merawat ingatan, menghidupkan kembali jaringan
           </h2>
           <p className="mt-4 max-w-3xl leading-relaxed text-neutral-600">
@@ -449,27 +507,33 @@ export default function Penjelasan() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <h2 className="text-2xl font-semibold text-neutral-900">
-          Warisan yang tersisa
-        </h2>
-        <p className="mt-2 max-w-2xl text-neutral-600">
-          Jejak jalur rempah masih hidup dalam budaya dan kehidupan masyarakat
-          Indonesia hingga kini.
-        </p>
-        <div className="mt-8 grid gap-8 md:grid-cols-3">
-          {[...heritage, ...impacts].map((h) => (
-            <div key={h.title}>
-              <FontAwesomeIcon
-                icon={h.icon}
-                className="h-6 w-6 text-neutral-500"
-              />
-              <h3 className="mt-3 font-semibold text-neutral-900">{h.title}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-neutral-600">
-                {h.desc}
-              </p>
-            </div>
-          ))}
+      <section className="gradient-warm w-full">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+          <h2 className="text-2xl font-bold text-neutral-900">
+            Warisan yang tersisa
+          </h2>
+          <p className="mt-2 max-w-2xl text-neutral-600">
+            Jejak jalur rempah masih hidup dalam budaya dan kehidupan masyarakat
+            Indonesia hingga kini.
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[...heritage, ...impacts].map((h) => (
+              <div
+                key={h.title}
+                className="rounded-2xl bg-white/80 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${h.color} text-white shadow-md`}
+                >
+                  <FontAwesomeIcon icon={h.icon} className="h-5 w-5" />
+                </span>
+                <h3 className="mt-3 font-bold text-neutral-900">{h.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-neutral-600">
+                  {h.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
