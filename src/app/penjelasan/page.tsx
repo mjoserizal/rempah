@@ -175,6 +175,8 @@ const ports = [
     name: "Ternate dan Tidore",
     region: "Maluku Utara",
     desc: "Pusat produksi dan perdagangan cengkih. Kedua kesultanan ini terhubung dengan Sulawesi, Jawa, dan jaringan pedagang Asia melalui pelabuhan-pelabuhan di Maluku.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ternate_in_sight.jpg/960px-Ternate_in_sight.jpg",
     color: "border-l-amber-400",
     bg: "bg-amber-50/50",
   },
@@ -182,6 +184,8 @@ const ports = [
     name: "Kepulauan Banda",
     region: "Maluku Tengah",
     desc: "Wilayah utama penghasil pala dan fuli. Kapal dari berbagai wilayah datang untuk mengumpulkan komoditas yang kemudian dibawa ke pelabuhan perantara di Sulawesi dan Jawa.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/BandaBesarIslandSeenFromFortBelgica.JPG/960px-BandaBesarIslandSeenFromFortBelgica.JPG",
     color: "border-l-rose-400",
     bg: "bg-rose-50/50",
   },
@@ -189,6 +193,8 @@ const ports = [
     name: "Makassar",
     region: "Sulawesi Selatan",
     desc: "Simpul penting yang menghubungkan Maluku dengan Jawa, Nusa Tenggara, dan jalur menuju Asia. Pelabuhan ini menjadi ruang pertukaran rempah, beras, kain, dan hasil laut.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Makassar%2C_March_2019_%28cropped%29.jpg/960px-Makassar%2C_March_2019_%28cropped%29.jpg",
     color: "border-l-teal-400",
     bg: "bg-teal-50/50",
   },
@@ -196,6 +202,8 @@ const ports = [
     name: "Banten",
     region: "Jawa bagian barat",
     desc: "Pelabuhan lada yang ramai dan pintu masuk menuju pasar Asia. Letaknya di dekat Selat Sunda membuat Banten strategis bagi kapal yang bergerak antara Samudra Hindia dan Nusantara.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Banten_in_Indonesia.svg/960px-Banten_in_Indonesia.svg.png",
     color: "border-l-purple-400",
     bg: "bg-purple-50/50",
   },
@@ -203,6 +211,8 @@ const ports = [
     name: "Aceh dan Barus",
     region: "Sumatera bagian utara",
     desc: "Aceh berperan sebagai pusat perdagangan di ujung barat Nusantara, sedangkan Barus dikenal melalui kapur barus. Keduanya terhubung dengan India, Arab, dan pesisir Afrika Timur.",
+    image:
+      "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=900&q=85",
     color: "border-l-emerald-400",
     bg: "bg-emerald-50/50",
   },
@@ -210,6 +220,8 @@ const ports = [
     name: "Malaka",
     region: "Semenanjung Melayu",
     desc: "Emporium besar tempat rempah dari Nusantara bertemu pedagang Gujarat, Arab, Persia, Tiongkok, dan Eropa sebelum diteruskan ke pasar yang lebih luas.",
+    image:
+      "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=900&q=85",
     color: "border-l-indigo-400",
     bg: "bg-indigo-50/50",
   },
@@ -460,17 +472,25 @@ export default function Penjelasan() {
               {ports.map((port) => (
                 <article
                   key={port.name}
-                  className={`rounded-2xl border-l-4 ${port.color} ${port.bg} p-5 shadow-sm transition hover:shadow-md`}
+                  className={`overflow-hidden rounded-2xl border-l-4 ${port.color} ${port.bg} shadow-sm transition hover:shadow-md`}
                 >
-                  <p className="text-xs font-bold uppercase tracking-wider text-spice-amber-dark">
-                    {port.region}
-                  </p>
-                  <h4 className="mt-2 font-bold text-neutral-900">
-                    {port.name}
-                  </h4>
-                  <p className="mt-2 text-sm leading-relaxed text-neutral-600">
-                    {port.desc}
-                  </p>
+                  <div
+                    className="h-32 bg-cover bg-center"
+                    role="img"
+                    aria-label={`Foto ${port.name}`}
+                    style={{ backgroundImage: `url(${port.image})` }}
+                  />
+                  <div className="p-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-spice-amber-dark">
+                      {port.region}
+                    </p>
+                    <h4 className="mt-2 font-bold text-neutral-900">
+                      {port.name}
+                    </h4>
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                      {port.desc}
+                    </p>
+                  </div>
                 </article>
               ))}
             </div>
