@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookOpen,
@@ -12,9 +16,11 @@ import {
   faArrowRightLong,
   faArrowLeftLong,
   faArrowsLeftRight,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import LottieSpiceMap from "@/components/LottieSpiceMap";
+import RealSpiceMap from "@/components/RealSpiceMap";
 import ScrollReveal from "@/components/ScrollReveal";
 
 type Spice = {
@@ -85,24 +91,36 @@ const chronology = [
     period: "Praaksara",
     title: "Pelayaran Austronesia",
     desc: "Pelaut Austronesia mengembangkan perahu bercadik dan jaringan pelayaran luas dari Asia Tenggara hingga Madagaskar dan Afrika Timur. Jejak perdagangan rempah dengan dunia kuno terus dikaji melalui bukti arkeologis dan sumber tertulis.",
+    detail:
+      "Kemahiran membaca angin, arus, bintang, dan musim membuat pelaut Austronesia mampu menempuh jarak jauh dengan perahu bercadik. Jaringan ini menghubungkan kepulauan Indonesia dengan pesisir Asia Tenggara, Samudra Hindia, Madagaskar, hingga Afrika Timur. Walaupun belum berbentuk perdagangan rempah seperti pada masa kemudian, pertukaran bahan alam dan pengetahuan telah membangun fondasi jalur maritim Nusantara.",
+    route: "Asia Tenggara → Nusantara → Madagaskar → Afrika Timur",
     gradient: "from-amber-400 to-orange-500",
   },
   {
     period: "Abad ke-4–15",
     title: "Kerajaan maritim",
     desc: "Sriwijaya berkembang sebagai entrepôt di sekitar Selat Malaka dan Selat Sunda. Majapahit memperkuat hubungan antarpulau dalam jaringan perdagangan Nusantara.",
+    detail:
+      "Sriwijaya menguasai simpul strategis di sekitar Selat Malaka dan Selat Sunda, tempat kapal singgah, bertukar muatan, dan menunggu perubahan angin. Pada masa Majapahit, hubungan antarpulau semakin kuat melalui pelabuhan dan jaringan politik yang menghubungkan Jawa, Sumatra, Kalimantan, Sulawesi, hingga Maluku.",
+    route: "Selat Malaka → Selat Sunda → Jawa → Maluku",
     gradient: "from-teal-400 to-cyan-500",
   },
   {
     period: "Abad ke-15–16",
     title: "Kesultanan dan emporium",
     desc: "Malaka menjadi pusat pertemuan pedagang Asia dan Eropa. Ternate dan Tidore menjadi pusat politik serta perdagangan cengkih di Maluku.",
+    detail:
+      "Malaka menjadi emporium kosmopolitan yang mempertemukan pedagang dari Gujarat, Arab, Persia, Tiongkok, dan Nusantara. Dari sana, kapal melanjutkan perjalanan menuju pusat cengkih di Ternate dan Tidore. Kesultanan di Maluku mengatur produksi, hubungan dagang, dan akses menuju pulau-pulau penghasil rempah.",
+    route: "India dan Arab → Malaka → Sulawesi → Ternate dan Tidore",
     gradient: "from-purple-400 to-indigo-500",
   },
   {
     period: "Abad ke-16–20",
     title: "Monopoli dan kolonialisme",
     desc: "Portugis merebut Malaka pada 1511 dan mencapai Maluku pada 1512. Perjanjian Zaragoza 1521 membagi wilayah operasi Spanyol dan Portugis. VOC berdiri pada 1602 dan memaksakan monopoli melalui pelayaran hongi dengan kora-kora, ekstirpasi, serta kekerasan di Banda pada 1621 di bawah JP Coen. Perjanjian Breda 1667 mengatur pertukaran Pulau Run dengan Manhattan.",
+    detail:
+      "Kedatangan Portugis dan Spanyol mengubah persaingan dagang menjadi perebutan kendali politik dan militer. Setelah VOC berdiri pada 1602, monopoli dipaksakan melalui perjanjian, benteng, pelayaran hongi, dan ekstirpasi. Kekerasan di Banda pada 1621 menghancurkan masyarakat penghasil pala, sementara Perjanjian Breda pada 1667 mengatur pertukaran Pulau Run dengan Manhattan dan memperlihatkan betapa tingginya nilai komoditas rempah dalam politik global.",
+    route: "Lisbon → Tanjung Harapan → Malaka → Banda dan Maluku",
     gradient: "from-rose-400 to-pink-500",
   },
 ];
@@ -219,6 +237,26 @@ const heritage = [
 ];
 
 export default function Penjelasan() {
+  const [selectedChronology, setSelectedChronology] = useState<
+    (typeof chronology)[number] | null
+  >(null);
+
+  useEffect(() => {
+    if (!selectedChronology) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedChronology(null);
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = "";
+    };
+  }, [selectedChronology]);
+
   return (
     <div className="-mt-20 flex w-full min-w-0 flex-col">
       <section className="gradient-hero">
@@ -364,9 +402,11 @@ export default function Penjelasan() {
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-4">
             {chronology.map((item) => (
-              <article
+              <button
+                type="button"
                 key={item.period}
-                className="rounded-2xl border-t-4 border-t-spice-amber/30 bg-white/80 p-5 shadow-sm transition hover:shadow-md"
+                onClick={() => setSelectedChronology(item)}
+                className="group rounded-2xl border-t-4 border-t-spice-amber/30 bg-white/80 p-5 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <span
                   className={`inline-flex rounded-full bg-gradient-to-r ${item.gradient} px-3 py-1 text-xs font-bold text-white`}
@@ -379,7 +419,10 @@ export default function Penjelasan() {
                 <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                   {item.desc}
                 </p>
-              </article>
+                <span className="mt-4 inline-flex text-xs font-bold text-spice-amber transition group-hover:text-spice-coral">
+                  Buka kisah dan rute →
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -452,6 +495,14 @@ export default function Penjelasan() {
                           {r.desc}
                         </p>
                       </div>
+                    </div>
+
+                    <div className="mt-5">
+                      <RealSpiceMap
+                        highlightedRoute={r.name}
+                        routePath={stops}
+                        compact
+                      />
                     </div>
 
                     <div className="mt-6 overflow-x-auto pb-1">
@@ -536,6 +587,63 @@ export default function Penjelasan() {
           </div>
         </div>
       </section>
+
+      {selectedChronology &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="chronology-modal-title"
+            className="fixed inset-0 z-[100] flex h-dvh w-screen items-center justify-center bg-neutral-950/70 p-4 backdrop-blur-sm sm:p-6"
+            onClick={() => setSelectedChronology(null)}
+          >
+            <div
+              className="max-h-[calc(100dvh-2rem)] w-full max-w-5xl overflow-y-auto rounded-3xl bg-[#fffaf3] shadow-2xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-5 border-b border-spice-amber/15 px-5 py-5 sm:px-8">
+                <div>
+                  <p className="section-kicker">{selectedChronology.period}</p>
+                  <h2
+                    id="chronology-modal-title"
+                    className="mt-1 text-2xl font-bold text-neutral-900 sm:text-3xl"
+                  >
+                    {selectedChronology.title}
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedChronology(null)}
+                  aria-label="Tutup detail kronologi"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-spice-amber-light text-spice-amber-dark transition hover:bg-spice-amber hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="grid gap-6 px-5 py-6 sm:px-8 sm:py-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                <div className="rounded-2xl bg-gradient-to-br from-cyan-50/80 via-white/40 to-indigo-100/70 p-2">
+                  <RealSpiceMap
+                    highlightedRoute={selectedChronology.title}
+                    routePath={selectedChronology.route.split(" → ")}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold uppercase tracking-[0.14em] text-spice-teal-dark">
+                    Rute pelayaran
+                  </p>
+                  <p className="mt-3 rounded-xl bg-spice-amber-light/70 px-4 py-3 text-sm font-bold leading-relaxed text-spice-amber-dark">
+                    {selectedChronology.route}
+                  </p>
+                  <p className="mt-5 text-base leading-relaxed text-neutral-700">
+                    {selectedChronology.detail}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
